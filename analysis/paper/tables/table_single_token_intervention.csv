@@ -1,0 +1,8 @@
+Condition,Primary,Token source,best@32,DRI %,DAI %,Tokens
+B_q3 free,B_q3,none,0.300,83.9,0.1,1836
+B_q3 + IF token,B_q3,I_q3,0.100,1.6,0.9,1264
+B_q3 random top2,B_q3,none,0.167,0.1,0.5,989
+I_q3 + base token,I_q3,B_q3,0.333,0.0,0.0,638
+B_q25m free,B_q25m,none,0.033,95.0,0.0,1549
+I_q25m + base token,I_q25m,B_q25m,0.367,0.0,0.5,893
+I_q25m + DRI prefix,I_q25m,none,0.267,71.9,28.1,479

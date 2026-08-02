@@ -1,0 +1,118 @@
+# RQ1 evaluation plan.
+#
+# Each entry in `required` / `optional` defines one (model, benchmark, mode)
+# run. run_inference.py consumes a single entry at a time.
+#
+# modes:
+#   greedy       -> K=1, temperature=0.0, top_p=1.0
+#   sampling_kN  -> K=N, temperature=0.7, top_p=0.95, per-sample seed = 42 + sample_id
+#
+# Global seed = 42.
+# max_new_tokens defaults to 4096 across the board.
+
+global:
+  seed: 42
+  max_new_tokens: 12288
+  flush_every: 16
+  # vLLM engine defaults (can be overridden by env)
+  vllm:
+    dtype: bfloat16
+    gpu_memory_utilization: 0.88
+    max_model_len: 24576
+    trust_remote_code: false
+    enforce_eager: false
+
+models_today: [base, math_rlvr, if_rlvr]
+
+required:
+  - {model: base,      benchmark: math500,        mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+  - {model: math_rlvr, benchmark: math500,        mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+  - {model: if_rlvr,   benchmark: math500,        mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+
+  - {model: base,      benchmark: aime24,         mode: sampling_k32, k: 32, temperature: 0.7, top_p: 0.95}
+  - {model: math_rlvr, benchmark: aime24,         mode: sampling_k32, k: 32, temperature: 0.7, top_p: 0.95}
+  - {model: if_rlvr,   benchmark: aime24,         mode: sampling_k32, k: 32, temperature: 0.7, top_p: 0.95}
+
+  # GSM8K added as short-chain math diagnostic. Uses default_math prompt
+  # (no step-by-step) so it stays consistent with MATH-500 / AIME24 prompt
+  # design. A model that still produces long CoT on these easy problems is
+  # showing an RLVR-selected math-style default behavior.
+  - {model: base,      benchmark: gsm8k,          mode: greedy,       k: 1,  temperature: 0.0, top_p: 1.0}
+  - {model: math_rlvr, benchmark: gsm8k,          mode: greedy,       k: 1,  temperature: 0.0, top_p: 1.0}
+  - {model: if_rlvr,   benchmark: gsm8k,          mode: greedy,       k: 1,  temperature: 0.0, top_p: 1.0}
+
+  - {model: base,      benchmark: ifeval,         mode: greedy,       k: 1,  temperature: 0.0, top_p: 1.0}
+  - {model: math_rlvr, benchmark: ifeval,         mode: greedy,       k: 1,  temperature: 0.0, top_p: 1.0}
+  - {model: if_rlvr,   benchmark: ifeval,         mode: greedy,       k: 1,  temperature: 0.0, top_p: 1.0}
+
+  - {model: base,      benchmark: ifbench,        mode: greedy,       k: 1,  temperature: 0.0, top_p: 1.0}
+  - {model: math_rlvr, benchmark: ifbench,        mode: greedy,       k: 1,  temperature: 0.0, top_p: 1.0}
+  - {model: if_rlvr,   benchmark: ifbench,        mode: greedy,       k: 1,  temperature: 0.0, top_p: 1.0}
+
+  # ------------------------------------------------------------------
+  # RQ2 sequential models (2026-05-09 addition).
+  # Exact same decoding as the single-objective entries above, so
+  # numbers are directly stackable with run_id 20260504_rq1 for
+  # composition / override analysis.
+  # ------------------------------------------------------------------
+  - {model: math_then_if, benchmark: math500, mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+  - {model: if_then_math, benchmark: math500, mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+
+  - {model: math_then_if, benchmark: aime24,  mode: sampling_k32, k: 32, temperature: 0.7, top_p: 0.95}
+  - {model: if_then_math, benchmark: aime24,  mode: sampling_k32, k: 32, temperature: 0.7, top_p: 0.95}
+
+  - {model: math_then_if, benchmark: gsm8k,   mode: greedy,       k: 1,  temperature: 0.0, top_p: 1.0}
+  - {model: if_then_math, benchmark: gsm8k,   mode: greedy,       k: 1,  temperature: 0.0, top_p: 1.0}
+
+  - {model: math_then_if, benchmark: ifeval,  mode: greedy,       k: 1,  temperature: 0.0, top_p: 1.0}
+  - {model: if_then_math, benchmark: ifeval,  mode: greedy,       k: 1,  temperature: 0.0, top_p: 1.0}
+
+  - {model: math_then_if, benchmark: ifbench, mode: greedy,       k: 1,  temperature: 0.0, top_p: 1.0}
+  - {model: if_then_math, benchmark: ifbench, mode: greedy,       k: 1,  temperature: 0.0, top_p: 1.0}
+
+  # ------------------------------------------------------------------
+  # MathIF / ReasonIF behavior probes. These use sampling to expose support
+  # redistribution and joint correct+follow searchability, mirroring n=16/32
+  # rollout analyses in the paper.
+  # ------------------------------------------------------------------
+  - {model: base,         benchmark: mathif,   mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+  - {model: math_rlvr,    benchmark: mathif,   mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+  - {model: if_rlvr,      benchmark: mathif,   mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+  - {model: math_then_if, benchmark: mathif,   mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+  - {model: if_then_math, benchmark: mathif,   mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+
+  - {model: base,         benchmark: reasonif, mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+  - {model: math_rlvr,    benchmark: reasonif, mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+  - {model: if_rlvr,      benchmark: reasonif, mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+  - {model: math_then_if, benchmark: reasonif, mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+  - {model: if_then_math, benchmark: reasonif, mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+
+  # ------------------------------------------------------------------
+  # Step-by-step ablation cells (2026-05-07 addition).
+  # Same decoding / K / seed as each non-cot counterpart, so deltas
+  # vs RQ1 main come purely from the prompt change.
+  # ------------------------------------------------------------------
+  - {model: base,      benchmark: math500_cot,    mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+  - {model: math_rlvr, benchmark: math500_cot,    mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+  - {model: if_rlvr,   benchmark: math500_cot,    mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+
+  - {model: base,      benchmark: aime24_cot,     mode: sampling_k32, k: 32, temperature: 0.7, top_p: 0.95}
+  - {model: math_rlvr, benchmark: aime24_cot,     mode: sampling_k32, k: 32, temperature: 0.7, top_p: 0.95}
+  - {model: if_rlvr,   benchmark: aime24_cot,     mode: sampling_k32, k: 32, temperature: 0.7, top_p: 0.95}
+
+  - {model: base,      benchmark: gsm8k_cot,      mode: greedy,       k: 1,  temperature: 0.0, top_p: 1.0}
+  - {model: math_rlvr, benchmark: gsm8k_cot,      mode: greedy,       k: 1,  temperature: 0.0, top_p: 1.0}
+  - {model: if_rlvr,   benchmark: gsm8k_cot,      mode: greedy,       k: 1,  temperature: 0.0, top_p: 1.0}
+
+optional:
+  - {model: base,      benchmark: ifeval,         mode: sampling_k8,  k: 8,  temperature: 0.7, top_p: 0.95}
+  - {model: math_rlvr, benchmark: ifeval,         mode: sampling_k8,  k: 8,  temperature: 0.7, top_p: 0.95}
+  - {model: if_rlvr,   benchmark: ifeval,         mode: sampling_k8,  k: 8,  temperature: 0.7, top_p: 0.95}
+
+  - {model: base,      benchmark: ifbench,        mode: sampling_k8,  k: 8,  temperature: 0.7, top_p: 0.95}
+  - {model: math_rlvr, benchmark: ifbench,        mode: sampling_k8,  k: 8,  temperature: 0.7, top_p: 0.95}
+  - {model: if_rlvr,   benchmark: ifbench,        mode: sampling_k8,  k: 8,  temperature: 0.7, top_p: 0.95}
+
+  - {model: base,      benchmark: gsm8k_subset,   mode: sampling_k8,  k: 8,  temperature: 0.7, top_p: 0.95}
+  - {model: math_rlvr, benchmark: gsm8k_subset,   mode: sampling_k8,  k: 8,  temperature: 0.7, top_p: 0.95}
+  - {model: if_rlvr,   benchmark: gsm8k_subset,   mode: sampling_k8,  k: 8,  temperature: 0.7, top_p: 0.95}

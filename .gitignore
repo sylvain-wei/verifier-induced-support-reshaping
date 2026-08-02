@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Large external artifacts
+/models/
+/checkpoints/
+/outputs/
+/wandb/
+/ray_results/
+
+# Evaluation outputs
+/eval/cache/
+/eval/responses/
+/eval/metrics/
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

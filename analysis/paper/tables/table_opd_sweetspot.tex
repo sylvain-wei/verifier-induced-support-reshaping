@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering
+\small
+\caption{OPD preserves math support only for the early IF teacher.}
+\label{tab:opd-sweetspot}
+\begin{tabular}{llrrrl}
+\toprule
+Teacher & OPD steps & MATH mean@16 & IFEval mean@16 & Shortcut \% & Verdict \\
+\midrule
+full IF step100 & 50 & 0.0879 & -- & 18.8 & rejected \\
+step20 & 100 & 0.359 & 0.729 & 13.6 & sweet spot \\
+step40 & 100 & 0.304 & 0.814 & 26.9 & shortcut/math trade-off \\
+step60 & 100 & 0.284 & 0.797 & 30.9 & shortcut/math trade-off \\
+step80 & 100 & 0.173 & 0.766 & 29.8 & shortcut/math trade-off \\
+\bottomrule
+\end{tabular}
+\end{table}

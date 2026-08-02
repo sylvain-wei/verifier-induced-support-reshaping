@@ -1,0 +1,19 @@
+\begin{table}[t]
+\centering
+\small
+\caption{Controlled training paths used to diagnose verifier-induced support reshaping.}
+\label{tab:setup-paths}
+\begin{tabular}{lllll}
+\toprule
+Path & Role & Initialization & Training signal & Primary use \\
+\midrule
+Base & reference policy & Qwen3-8B / Qwen2.5-Math & none & all sections \\
+Math-RLVR & direct verifier contrast & base & exact-match math & Sec. 4.1, 5, 7 \\
+IF-RLVR & direct verifier contrast & base & multi-constraint IF & Sec. 4.2-4.3, 5, 7 \\
+IF->math & sequential trainability test & IF endpoint & exact-match math & Sec. 4.4 \\
+Math->IF & sequential retention/adaptation test & Math endpoint & multi-constraint IF + reference KL scan & Sec. 4.5 \\
+Routing prior & cold-start IF-RLVR & base + SFT prior & IF-RLVR & Sec. 6.1 \\
+OPD & distillation & base student + IF teacher & top-K reverse KL & Sec. 6.2-6.3 \\
+\bottomrule
+\end{tabular}
+\end{table}

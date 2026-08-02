@@ -1,0 +1,95 @@
+# Prompt templates. These are STRING templates applied to the raw problem
+# text. For IF benchmarks we pass the original prompt through unchanged.
+#
+# ==========================================================================
+# RQ1 prompt design principle (consistent across ALL math benchmarks):
+#   - DO NOT prescribe a reasoning style in the prompt (no "step by step").
+#   - Specify ONLY the answer format so extraction is deterministic.
+#   - This lets us observe the model's DEFAULT behavioral pattern: whether
+#     it spontaneously decomposes, verifies, etc. If we told every model
+#     "think step by step", any CoT behavior we measure would be a prompt
+#     artifact, not evidence that RLVR selected a math-style pattern.
+# ==========================================================================
+
+templates:
+  # MATH-500: \boxed{} answer convention, no reasoning instruction.
+  default_math: |-
+    Problem:
+    {problem}
+
+    Put your final answer in \boxed{}.
+
+  # GSM8K: answers are plain numbers (no currency, no commas, no units).
+  # We spell this out so models don't emit \boxed{$70,000} or \boxed{18 dollars}
+  # that need post-hoc cleanup. Still no step-by-step prescription.
+  default_math_numeric: |-
+    Problem:
+    {problem}
+
+    Put your final numerical answer in \boxed{}, as a plain number without currency symbols, commas, or units.
+
+  # AIME: integer answer on an "Answer: N" line, no reasoning instruction.
+  # (AIME answers are 0-999 integers; \boxed{540} also works, but Answer:
+  # line matches existing BytedTsinghua-SIA conventions for extraction.)
+  aime_default: |-
+    Problem:
+    {problem}
+
+    Provide your final answer as an integer on a line of the form "Answer: N".
+
+  # --------------------------------------------------------------------
+  # Step-by-step ablation templates.
+  # Each `cot_*` template is a strict superset of its non-cot counterpart:
+  # the ONLY textual difference is the prepended sentence
+  #   "Please solve the problem step by step."
+  # This keeps the ablation clean — any delta vs the non-cot run is
+  # attributable to the explicit reasoning instruction, not to wording drift.
+  # Used by math500_cot / aime24_cot / gsm8k_cot benchmarks (see datasets.yaml).
+  # --------------------------------------------------------------------
+
+  # CoT counterpart of `default_math` (MATH-500).
+  cot_math: |-
+    Problem:
+    {problem}
+
+    Please solve the problem step by step. Put your final answer in \boxed{}.
+
+  # CoT counterpart of `default_math_numeric` (GSM8K).
+  cot_math_numeric: |-
+    Problem:
+    {problem}
+
+    Please solve the problem step by step. Put your final numerical answer in \boxed{}, as a plain number without currency symbols, commas, or units.
+
+  # CoT counterpart of `aime_default` (AIME24).
+  cot_aime: |-
+    Problem:
+    {problem}
+
+    Please solve the problem step by step. Provide your final answer as an integer on a line of the form "Answer: N".
+
+  # Legacy: the canonical BytedTsinghua-SIA/lighteval MATH_v2 AIME prompt
+  # (explicitly asks for step-by-step). Kept for future ablation where we
+  # want to replicate prior-work numbers. NOT used in the main RQ1 matrix.
+  aime_mathv2: |-
+    Solve the following math problem step by step. The last line of your response should be of the form Answer: $Answer (without quotes) where $Answer is the answer to the problem.
+
+    {problem}
+
+    Remember to put your answer on its own line after "Answer:".
+
+  # Legacy GSM8K prompt: forces step-by-step. Kept for ablation; the main
+  # RQ1 matrix uses `default_math` on GSM8K too (see README §7).
+  gsm8k_default: |-
+    Question:
+    {question}
+
+    Please solve the problem step by step and give the final numerical answer.
+
+  # IF benchmarks: raw prompt passthrough, no system prefix.
+  if_passthrough: "{prompt}"
+
+  # MathIF / ReasonIF records are pre-templated by their converters so that
+  # dataset-specific instruction wording is preserved exactly.
+  mathif_passthrough: "{prompt}"
+  reasonif_passthrough: "{prompt}"

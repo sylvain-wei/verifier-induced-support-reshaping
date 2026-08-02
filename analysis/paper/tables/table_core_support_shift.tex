@@ -1,0 +1,16 @@
+\begin{table}[t]
+\centering
+\small
+\caption{Core support-shift signatures that motivate the paper's mechanism.}
+\label{tab:core-support-shift}
+\begin{tabular}{lllll}
+\toprule
+Finding & Setting & Metric shift & Support/mode shift & Interpretation \\
+\midrule
+F1: Math->IF & Q3 IFEval & pass@1 +0.065; best@32 -0.098 & 0/32 +67; 32/32 +73 prompts & support redistribution \\
+F2: IF->AIME & Q3 AIME & best@32 0.40 -> 0.00 & DRI 0.71 -> 0.00; DAI 0.04 -> 1.00 & routing collapse \\
+F3: IF shortcuts & IFEval/IFBench & judge shortcut 73.5\% & short-pass 0.103 -> 0.491 & surface compliance \\
+F4: IF->math & math-7.5k probe & mixed 0.336 -> 0.016 & all-wrong init 0.656; DAI 0.557 -> 1.000 & future-trainability failure \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,9 @@
+# Pinned CPU-only dependencies for the released unit-test suite.
+langdetect==1.0.9
+sacrebleu==2.4.3
+immutabledict==4.2.1
+absl-py==2.1.0
+sympy==1.13.3
+PyYAML==6.0.2
+pyarrow==17.0.0
+pytest==8.3.5

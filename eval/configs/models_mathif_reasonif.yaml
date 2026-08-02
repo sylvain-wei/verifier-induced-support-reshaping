@@ -1,0 +1,40 @@
+run_id: "mathif_reasonif_k16_fast_valid"
+
+models:
+  base:
+    path: PROJECT_ROOT/models/Qwen3-8B-Base
+    tokenizer_path: PROJECT_ROOT/models/Qwen3-8B-Base
+    source_repo: Qwen/Qwen3-8B-Base
+    source_revision: null  # Original local snapshot revision was not recorded.
+    availability: public_external
+    model_type: qwen3-base
+    prompt_style: chat
+    has_chat_template: true
+    notes: "Qwen3-8B-Base."
+
+  math_rlvr:
+    path: PROJECT_ROOT/checkpoints/verl_exp/RLVR_MATH_VIF_BALANCE/Qwen3-8B-Base_DAPO_trainset_n8_1node_h800/global_step_720/hf_model
+    tokenizer_path: PROJECT_ROOT/checkpoints/verl_exp/RLVR_MATH_VIF_BALANCE/Qwen3-8B-Base_DAPO_trainset_n8_1node_h800/global_step_720/hf_model
+    availability: required_not_included
+    model_type: qwen3-rlvr
+    prompt_style: chat
+    has_chat_template: true
+    notes: "Available Math-RLVR checkpoint with safetensors (global_step_720)."
+
+  if_rlvr:
+    path: PROJECT_ROOT/checkpoints/verl_exp/RLVR_MATH_VIF_BALANCE/Qwen3-8B-Base_IFEval_ifevaltrainset_n16_1node_h20/global_step_720/huggingface
+    tokenizer_path: PROJECT_ROOT/checkpoints/verl_exp/RLVR_MATH_VIF_BALANCE/Qwen3-8B-Base_IFEval_ifevaltrainset_n16_1node_h20/global_step_720/huggingface
+    availability: required_not_included
+    model_type: qwen3-rlvr
+    prompt_style: chat
+    has_chat_template: true
+    notes: "IF-RLVR checkpoint with safetensors (global_step_720)."
+
+  math_then_if:
+    path: PROJECT_ROOT/checkpoints/verl_exp/RLVR_MATH_VIF_BALANCE/qwen3_8b_base-algo_dapo-data_iftrain-after_dapotrainset/global_step_720/hf_model
+    tokenizer_path: PROJECT_ROOT/checkpoints/verl_exp/RLVR_MATH_VIF_BALANCE/qwen3_8b_base-algo_dapo-data_iftrain-after_dapotrainset/global_step_720/hf_model
+    availability: required_not_included
+    model_type: qwen3-rlvr-seq
+    prompt_style: chat
+    has_chat_template: true
+    notes: "Math->IF checkpoint with safetensors (global_step_720)."

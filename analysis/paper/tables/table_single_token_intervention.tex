@@ -1,0 +1,19 @@
+\begin{table}[t]
+\centering
+\small
+\caption{Single routing-token interventions reproduce or reverse AIME searchability collapse.}
+\label{tab:single-token-intervention}
+\begin{tabular}{lllrrrr}
+\toprule
+Condition & Primary & Token source & best@32 & DRI \% & DAI \% & Tokens \\
+\midrule
+B\_q3 free & B\_q3 & none & 0.300 & 83.9 & 0.1 & 1836 \\
+B\_q3 + IF token & B\_q3 & I\_q3 & 0.100 & 1.6 & 0.9 & 1264 \\
+B\_q3 random top2 & B\_q3 & none & 0.167 & 0.1 & 0.5 & 989 \\
+I\_q3 + base token & I\_q3 & B\_q3 & 0.333 & 0.0 & 0.0 & 638 \\
+B\_q25m free & B\_q25m & none & 0.033 & 95.0 & 0.0 & 1549 \\
+I\_q25m + base token & I\_q25m & B\_q25m & 0.367 & 0.0 & 0.5 & 893 \\
+I\_q25m + DRI prefix & I\_q25m & none & 0.267 & 71.9 & 28.1 & 479 \\
+\bottomrule
+\end{tabular}
+\end{table}

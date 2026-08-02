@@ -1,0 +1,164 @@
+# Dataset registry.
+#
+# Each benchmark has:
+#   local_sources: ordered list of candidate local files to try first
+#   hf_repo / hf_config / hf_split: fallback if local not found
+#   converter: which function in src/data/converters.py to use
+#   prompt_template_id: key in configs/prompts.yaml
+#   task_type: math | if
+#
+# Output of prepare_data.py: cache/processed_data/{benchmark}.jsonl
+
+data_root: PROJECT_ROOT/data
+processed_dir: PROJECT_ROOT/eval/cache/processed_data
+
+benchmarks:
+  math500:
+    task_type: math
+    local_sources:
+      - PROJECT_ROOT/data/math500/test.parquet
+    hf_repo: HuggingFaceH4/MATH-500
+    hf_split: test
+    converter: math500_from_parquet
+    prompt_template_id: default_math
+
+  aime24:
+    task_type: math
+    local_sources:
+      - PROJECT_ROOT/data/aime24/aime24_opd_val.parquet
+      - PROJECT_ROOT/data/aime24/test.parquet
+    hf_repo: BytedTsinghua-SIA/AIME-2024
+    hf_split: train
+    converter: aime_from_parquet
+    prompt_template_id: aime_default
+
+  aime25:    # RQ2/extension — kept here for parity, not in RQ1 required matrix
+    task_type: math
+    local_sources:
+      - PROJECT_ROOT/data/aime25/aime25_opd_val.parquet
+    hf_repo: yentinglin/aime_2025
+    hf_split: train
+    converter: aime_from_parquet
+    prompt_template_id: aime_default
+
+  gsm8k:
+    task_type: math
+    local_sources:
+      - PROJECT_ROOT/data/gsm8k/test.jsonl
+    hf_repo: openai/gsm8k
+    hf_config: main
+    hf_split: test
+    converter: gsm8k_from_hf
+    # Use default_math_numeric: no step-by-step (consistent with MATH-500/AIME),
+    # but explicit about answer format (plain number, no $, no commas) so the
+    # model doesn't emit \boxed{$70,000} or \boxed{18 dollars}.
+    prompt_template_id: default_math_numeric
+    subset_size: 300          # fixed 300-example subset for sampling mode
+    subset_seed: 42
+
+  ifeval:
+    task_type: if
+    local_sources:
+      - PROJECT_ROOT/data/ifeval/test.parquet
+    hf_repo: google/IFEval
+    hf_split: train
+    converter: ifeval_from_parquet
+    prompt_template_id: if_passthrough
+
+  ifbench:
+    task_type: if
+    local_sources:
+      - PROJECT_ROOT/data/ifbench/test.jsonl
+    # The official IFBench test set lives at allenai/IFBench_test.
+    # The `allenai/IFBench_multi-turn` split is a separate multi-turn
+    # extension and is NOT used here.
+    hf_repo: allenai/IFBench_test
+    hf_config: null
+    hf_split: train
+    converter: ifbench_format_only
+    prompt_template_id: if_passthrough
+    # IFBench subset: format-only (no LLM-as-judge) IDs only.
+    # All 300 rows of allenai/IFBench_test are covered by the bundled
+    # rule-based verifier (IFEval 54 IDs + IFBench 58 IDs = 112 total),
+    # so we use the full corpus.
+    format_only_max: 300
+    format_only_seed: 42
+
+  mathif:
+    task_type: mathif_reasoning
+    local_sources:
+      - PROJECT_ROOT/data/mathif/mathif.jsonl
+      - PROJECT_ROOT/data/mathif/data.jsonl
+    hf_repo: TingchenFu/MathIF
+    hf_split: test
+    converter: mathif_from_json
+    prompt_template_id: mathif_passthrough
+
+  reasonif:
+    task_type: reasonif_reasoning
+    local_sources:
+      - PROJECT_ROOT/data/reasonif/reasonIF_dataset.json
+      - PROJECT_ROOT/data/reasonif/reasonif_dataset.json
+    hf_repo: ykwon-hf/reasonIF
+    hf_split: train
+    converter: reasonif_from_json
+    prompt_template_id: reasonif_passthrough
+
+  # ------------------------------------------------------------------
+  # Step-by-step ablation variants of the three math benchmarks.
+  #
+  # Each *_cot benchmark reuses the SAME raw sources, converter and
+  # (for gsm8k) subset seed as its non-cot counterpart. The ONLY
+  # difference is prompt_template_id, which swaps in a `cot_*` template
+  # that prepends "Please solve the problem step by step." to the
+  # existing prompt body. This keeps every other variable fixed so that
+  # a delta vs the non-cot run is cleanly attributable to the CoT
+  # instruction.
+  #
+  # Processed outputs go to independent files:
+  #   cache/processed_data/math500_cot.jsonl
+  #   cache/processed_data/aime24_cot.jsonl
+  #   cache/processed_data/gsm8k_cot.jsonl
+  #
+  # NOTE (converters.py): the AIME converter infers the benchmark name
+  # from the `origin` / `data_source` field of each record, NOT from
+  # this yaml key, and will always label AIME-2024 rows as "aime24"
+  # even when this block is called from aime24_cot. That's why
+  # prepare_data.py (see patch) renames the output file explicitly
+  # and why the unified records' `benchmark` field is overridden with
+  # the aliased key.
+  # ------------------------------------------------------------------
+
+  math500_cot:
+    task_type: math
+    local_sources:
+      - PROJECT_ROOT/data/math500/test.parquet
+    hf_repo: HuggingFaceH4/MATH-500
+    hf_split: test
+    converter: math500_from_parquet
+    prompt_template_id: cot_math
+    alias_of: math500          # prepare_data special-case
+
+  aime24_cot:
+    task_type: math
+    local_sources:
+      - PROJECT_ROOT/data/aime24/aime24_opd_val.parquet
+      - PROJECT_ROOT/data/aime24/test.parquet
+    hf_repo: BytedTsinghua-SIA/AIME-2024
+    hf_split: train
+    converter: aime_from_parquet
+    prompt_template_id: cot_aime
+    alias_of: aime24
+
+  gsm8k_cot:
+    task_type: math
+    local_sources:
+      - PROJECT_ROOT/data/gsm8k/test.jsonl
+    hf_repo: openai/gsm8k
+    hf_config: main
+    hf_split: test
+    converter: gsm8k_from_hf
+    prompt_template_id: cot_math_numeric
+    subset_size: 300
+    subset_seed: 42
+    alias_of: gsm8k

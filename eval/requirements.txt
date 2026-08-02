@@ -1,0 +1,13 @@
+# Incremental evaluation dependencies.
+# The base environment must also provide compatible torch, transformers, vllm,
+# datasets, numpy, pandas, pyarrow, regex, sympy, pylatexenc, tqdm, and pyyaml.
+#
+# Install command:
+#   pip install -r requirements.txt
+#
+langdetect>=1.0.9      # IFEval language:response_language constraint
+scipy>=1.11            # z-score, entropy, stats utilities
+sacrebleu>=2.4         # self-BLEU diversity metric (stable, no NLTK data deps)
+immutabledict>=4.1     # Google IFEval / IFBench official verifier dep
+absl-py>=2.0           # Google IFEval / IFBench official verifier dep
+pytest>=7.0             # evaluation test runner

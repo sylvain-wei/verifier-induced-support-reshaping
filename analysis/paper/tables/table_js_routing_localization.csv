@@ -1,0 +1,5 @@
+Model pair,Dataset,JS@1,Interior JS,Ratio,95% CI
+B_q3 vs M_q3,aime,0.596,0.0314,19.0x,"[18.4, 19.6]"
+B_q3 vs I_q3,aime,0.595,0.0086,69.6x,"[66.0, 73.3]"
+B_q25m vs M_q25m,aime,0.134,0.0136,9.8x,"[9.3, 10.4]"
+B_q25m vs I_q25m,aime,0.680,0.0064,106.7x,"[97.7, 116.8]"

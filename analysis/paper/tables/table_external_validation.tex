@@ -1,0 +1,15 @@
+\begin{table}[t]
+\centering
+\small
+\caption{External MathIF and ReasonIF benchmarks reproduce the two-attractor support-reshaping pattern: Math-RLVR improves content accuracy with little IF gain, while IF-RLVR improves surface following and bypass without increasing joint correct-and-genuine following.}
+\label{tab:external-validation}
+\begin{tabular}{lrrrrrrr}
+\toprule
+Model & MathIF SAcc & MathIF IFAcc & MathIF HAcc & ReasonIF IFS & Genuine IFS & Bypass & Joint \\
+\midrule
+Base & 0.257 & 0.266 & 0.074 & 0.231 & 0.191 & 0.117 & 0.034 \\
+Math-RLVR & 0.331 & 0.274 & 0.089 & 0.227 & 0.181 & 0.085 & 0.037 \\
+IF-RLVR & 0.273 & 0.440 & 0.104 & 0.378 & 0.277 & 0.240 & 0.034 \\
+\bottomrule
+\end{tabular}
+\end{table}

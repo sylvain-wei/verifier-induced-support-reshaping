@@ -1,0 +1,27 @@
+global:
+  seed: 42
+  max_new_tokens: 4096
+  flush_every: 16
+  vllm:
+    dtype: bfloat16
+    gpu_memory_utilization: 0.88
+    max_model_len: 8192
+    trust_remote_code: false
+    enforce_eager: false
+
+models_today: [base, math_rlvr, if_rlvr, math_then_if, if_then_math]
+
+required:
+  - {model: base,         benchmark: mathif,   mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+  - {model: math_rlvr,    benchmark: mathif,   mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+  - {model: if_rlvr,      benchmark: mathif,   mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+  - {model: math_then_if, benchmark: mathif,   mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+  - {model: if_then_math, benchmark: mathif,   mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+
+  - {model: base,         benchmark: reasonif, mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+  - {model: math_rlvr,    benchmark: reasonif, mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+  - {model: if_rlvr,      benchmark: reasonif, mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+  - {model: math_then_if, benchmark: reasonif, mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+  - {model: if_then_math, benchmark: reasonif, mode: sampling_k16, k: 16, temperature: 0.7, top_p: 0.95}
+
+optional: []

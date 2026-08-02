@@ -1,0 +1,46 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the software and the accompanying paper."
+title: "Verifier-Induced Support Reshaping in On-Policy Optimization"
+type: software
+license: Apache-2.0
+authors:
+  - given-names: Shaohang
+    family-names: Wei
+    affiliation: Peking University
+  - given-names: Zikun
+    family-names: Su
+    affiliation: BUPT
+  - given-names: Feifan
+    family-names: Song
+    affiliation: Peking University
+  - given-names: Wen
+    family-names: Luo
+    affiliation: Peking University
+  - given-names: Wei
+    family-names: Li
+    affiliation: Peking University
+  - given-names: Guangyue
+    family-names: Peng
+    affiliation: Peking University
+  - given-names: Houfeng
+    family-names: Wang
+    affiliation: Peking University
+preferred-citation:
+  type: article
+  title: "Verifier-Induced Support Reshaping in On-Policy Optimization"
+  year: 2026
+  authors:
+    - given-names: Shaohang
+      family-names: Wei
+    - given-names: Zikun
+      family-names: Su
+    - given-names: Feifan
+      family-names: Song
+    - given-names: Wen
+      family-names: Luo
+    - given-names: Wei
+      family-names: Li
+    - given-names: Guangyue
+      family-names: Peng
+    - given-names: Houfeng
+      family-names: Wang

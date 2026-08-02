@@ -1,0 +1,71 @@
+# Model registry for RQ1 (and RQ2 placeholders).
+#
+# RQ1 requires: base, math_rlvr, if_rlvr.
+# RQ2 will add sequential models (B->M->I, B->I->M) — kept as commented
+# placeholders so that the registry can be extended without code changes.
+#
+# Prompt strategy:
+#   All RQ1 models use `chat` prompt style. This mirrors verl training:
+#   verl's RLHFDataset and SingleTurnAgentLoop both call
+#     tokenizer.apply_chat_template(messages, add_generation_prompt=True)
+#   on the `prompt: [{"role": "user", "content": "..."}]` column of the
+#   training parquet (dapo-math-17k.parquet / ifeval/train.parquet). The
+#   actor therefore sees `<|im_start|>user\n...<|im_end|>\n<|im_start|>assistant\n`
+#   at every training step. Evaluating in `plain` completion mode would
+#   be an out-of-distribution prompt format for the RLVR ckpts and leads
+#   to pathological sampling (7–17% empty responses on AIME24, see
+#   responses/20260507_rq1_cot/ investigation). All three checkpoints
+#   (including Qwen3-8B-Base) ship the same Qwen3 chat_template, so
+#   applying it to `base` is not a confound — `base` is simply evaluated
+#   under the same surface format it will be trained on.
+
+run_id: "20260503_rq1"
+
+models:
+  base:
+    path: PROJECT_ROOT/models/Qwen3-8B-Base
+    tokenizer_path: PROJECT_ROOT/models/Qwen3-8B-Base
+    source_repo: Qwen/Qwen3-8B-Base
+    source_revision: null  # Original local snapshot revision was not recorded.
+    availability: public_external
+    model_type: qwen3-base
+    prompt_style: chat
+    has_chat_template: true
+    notes: "Qwen3-8B-Base, raw LM. Ships the Qwen3 chat_template in tokenizer_config.json."
+
+  math_rlvr:
+    path: PROJECT_ROOT/checkpoints/verl_exp/RLVR_MATH_VIF_BALANCE/Qwen3-8B-Base_DAPO_trainset_n8_1node_h800/global_step_240/hf_model
+    tokenizer_path: PROJECT_ROOT/checkpoints/verl_exp/RLVR_MATH_VIF_BALANCE/Qwen3-8B-Base_DAPO_trainset_n8_1node_h800/global_step_240/hf_model
+    availability: required_not_included
+    model_type: qwen3-rlvr
+    prompt_style: chat
+    has_chat_template: true
+    notes: "Qwen3-8B-Base after Math-RLVR (DAPO trainset, global_step_240)."
+
+  if_rlvr:
+    path: PROJECT_ROOT/checkpoints/verl_exp/RLVR_MATH_VIF_BALANCE/Qwen3-8B-Base_IFEval_ifevaltrainset_n16_1node_h20/global_step_720/huggingface
+    tokenizer_path: PROJECT_ROOT/checkpoints/verl_exp/RLVR_MATH_VIF_BALANCE/Qwen3-8B-Base_IFEval_ifevaltrainset_n16_1node_h20/global_step_720/huggingface
+    availability: required_not_included
+    model_type: qwen3-rlvr
+    prompt_style: chat
+    has_chat_template: true
+    notes: "Qwen3-8B-Base after IF-RLVR (IFEval trainset, global_step_720)."
+
+  # ---- RQ2 sequential models ----
+  math_then_if:
+    path: PROJECT_ROOT/checkpoints/verl_exp/RLVR_MATH_VIF_BALANCE/qwen3_8b_base-algo_dapo-data_iftrain-after_dapotrainset/global_step_720/hf_model
+    tokenizer_path: PROJECT_ROOT/checkpoints/verl_exp/RLVR_MATH_VIF_BALANCE/qwen3_8b_base-algo_dapo-data_iftrain-after_dapotrainset/global_step_720/hf_model
+    availability: required_not_included
+    model_type: qwen3-rlvr-seq
+    prompt_style: chat
+    has_chat_template: true
+    notes: "B -> Math-RLVR (step 240 of Qwen3-8B-Base_DAPO_trainset_n8_1node_h800) -> IF-RLVR (step 720 of this run). Starting point was the math_rlvr@240 ckpt."
+
+  if_then_math:
+    path: PROJECT_ROOT/checkpoints/verl_exp/RLVR_MATH_VIF_BALANCE/Qwen3-8B-Base_after_IFTrain_DAPO_DAPOtrainset_2nodes_h20/global_step_500/hf_model
+    tokenizer_path: PROJECT_ROOT/checkpoints/verl_exp/RLVR_MATH_VIF_BALANCE/Qwen3-8B-Base_after_IFTrain_DAPO_DAPOtrainset_2nodes_h20/global_step_500/hf_model
+    availability: required_not_included
+    model_type: qwen3-rlvr-seq
+    prompt_style: chat
+    has_chat_template: true
+    notes: "B -> IF-RLVR (step 720 of if_rlvr) -> Math-RLVR (step 500 of this run). Converted from 16-rank FSDP to HF on 2026-05-09."
