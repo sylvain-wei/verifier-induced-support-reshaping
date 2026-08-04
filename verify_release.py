@@ -32,11 +32,13 @@ REQUIRED = (
     "docs/index.html",
     "docs/styles.css",
     "docs/script.js",
+    "docs/assets/README.md",
+    "docs/assets/illustrations/README.md",
     "docs/assets/figures/README.md",
 )
 JUNK_NAMES = {".DS_Store", "Thumbs.db", "tea_debug.log"}
 JUNK_SUFFIXES = {".pyc", ".pyo", ".swp"}
-IMAGE_SUFFIXES = {".png", ".jpg", ".jpeg", ".svg", ".pdf"}
+IMAGE_SUFFIXES = {".png", ".jpg", ".jpeg", ".webp", ".svg", ".pdf"}
 VISUAL_TOKENS = (
     "matplotlib",
     "seaborn",
@@ -50,6 +52,10 @@ DOC_IMAGE_ALLOWLIST = frozenset(
     {
         "docs/assets/favicon.svg",
         "docs/assets/og-card.png",
+        "docs/assets/pku-logo.svg",
+        "docs/assets/illustrations/support-reachability.webp",
+        "docs/assets/illustrations/opening-route.webp",
+        "docs/assets/illustrations/partial-preservation.webp",
         "docs/assets/figures/fig1-overview.svg",
         "docs/assets/figures/fig2-if-polarization.svg",
         "docs/assets/figures/fig3-math-searchability.svg",

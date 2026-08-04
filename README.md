@@ -6,6 +6,8 @@
 
 <sup>1</sup>Peking University &nbsp;&nbsp; <sup>2</sup>BUPT
 
+<a href="https://www.pku.edu.cn/"><img src="docs/assets/pku-logo.svg" alt="Peking University" width="235"></a>
+
 [Project Page](https://sylvain-wei.github.io/verifier-induced-support-reshaping/) · [arXiv](https://arxiv.org/abs/2608.00220) · [PDF](https://arxiv.org/pdf/2608.00220) · [Code](https://github.com/sylvain-wei/verifier-induced-support-reshaping) · [Reproducibility](REPRODUCIBILITY.md) · [Citation](#citation) · [License](LICENSE)
 
 <img src="docs/assets/figures/fig1-overview.svg" alt="Overview of verifier-induced support reshaping: unlike backward-looking forgetting, the paper studies how Math-RLVR and IF-RLVR change the behaviors that future on-policy training can still sample and reward." width="100%">
@@ -158,7 +160,7 @@ result. See the detailed [reproducibility matrix](REPRODUCIBILITY.md).
 
 | Status | Material |
 |---|---|
-| Included | Bundled verl/DAPO framework snapshot; reward and verifier code; evaluation and non-visual analysis scripts; unit tests; selected paper tables; curated static paper figures for documentation |
+| Included | Bundled verl/DAPO framework snapshot; reward and verifier code; evaluation and non-visual analysis scripts; unit tests; selected paper tables; curated static paper figures, an official institutional mark, and clearly labeled editorial artwork for documentation |
 | Public external input | Qwen3-8B-Base and the benchmark datasets listed in `eval/configs/` |
 | Required but not included | Fine-tuned paper checkpoints, generated rollouts, raw experiment logs, most intermediate analysis CSVs, and site-specific cluster launchers |
 | Out of scope | General manuscript figure-rendering or styling code, raw figure data, and intermediate figure artifacts |
@@ -179,7 +181,7 @@ sampling variation within a policy, not uncertainty across training seeds.
 ├── scripts_eval/          checkpoint-evaluation entry points
 ├── analysis/scripts/      non-visual analyses and training support
 ├── analysis/paper/tables/ selected released paper tables
-├── docs/                  static project page and curated paper figures
+├── docs/                  static project page, paper figures, and documented editorial assets
 ├── REPRODUCIBILITY.md     artifact availability and reproduction boundary
 ├── THIRD_PARTY_NOTICES.md vendored-code provenance and licenses
 ├── MANIFEST.tsv           SHA-256 inventory of released files
@@ -255,9 +257,17 @@ are covered by the paper's [CC BY 4.0 license](https://creativecommons.org/licen
 their provenance and conversion details are recorded in
 [`docs/assets/figures/README.md`](docs/assets/figures/README.md).
 
+The Peking University mark is an official institutional asset and is not
+licensed under Apache-2.0. The project-page editorial interludes are explicitly
+conceptual artwork, not paper figures or experimental evidence. Their sources,
+generation method, and license boundaries are recorded in
+[`docs/assets/README.md`](docs/assets/README.md).
+
 Vendored components retain their own notices; see [`NOTICE`](NOTICE),
 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md), and component-local license
 files. This release builds on the verl training framework and includes adapted
 evaluation components from Google Research IFEval and AllenAI IFBench. For
 manuscript preparation, AI assistants were used only for translation and
-language polishing.
+language polishing. Separately, the project-page editorial interludes were
+generated as clearly labeled conceptual artwork and are not part of the paper's
+scientific evidence.
