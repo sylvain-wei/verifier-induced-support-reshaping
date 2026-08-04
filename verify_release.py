@@ -22,12 +22,17 @@ REQUIRED = (
     ".gitignore",
     ".gitattributes",
     ".github/workflows/release-check.yml",
+    ".github/workflows/pages.yml",
     "MANIFEST.tsv",
     "scripts/rebuild_manifest.py",
     "configs/dapo/main_dapo.py",
     "eval/requirements-test.txt",
     "eval/scripts/run_rq1_required.sh",
     "scripts_eval/eval_one.py",
+    "docs/index.html",
+    "docs/styles.css",
+    "docs/script.js",
+    "docs/assets/figures/README.md",
 )
 JUNK_NAMES = {".DS_Store", "Thumbs.db", "tea_debug.log"}
 JUNK_SUFFIXES = {".pyc", ".pyo", ".swp"}
@@ -41,6 +46,20 @@ VISUAL_TOKENS = (
     "paper_plot_style",
 )
 MAX_GIT_BLOB_BYTES = 95 * 1024 * 1024
+DOC_IMAGE_ALLOWLIST = frozenset(
+    {
+        "docs/assets/favicon.svg",
+        "docs/assets/og-card.png",
+        "docs/assets/figures/fig1-overview.svg",
+        "docs/assets/figures/fig2-if-polarization.svg",
+        "docs/assets/figures/fig3-math-searchability.svg",
+        "docs/assets/figures/fig6-opening-divergence.svg",
+        "docs/assets/figures/fig8-opening-intervention-a.svg",
+        "docs/assets/figures/fig8-opening-intervention-b.svg",
+        "docs/assets/figures/fig9-dri-prior.svg",
+        "docs/assets/figures/fig11-teacher-state.svg",
+    }
+)
 
 
 def first_party_files() -> list[Path]:
@@ -152,7 +171,7 @@ def check_open_source_scope(errors: list[str], files: list[Path]) -> None:
         if path == Path(__file__).resolve():
             continue
         rel_path = path.relative_to(ROOT)
-        if path.suffix.lower() in IMAGE_SUFFIXES:
+        if path.suffix.lower() in IMAGE_SUFFIXES and rel_path.as_posix() not in DOC_IMAGE_ALLOWLIST:
             errors.append(f"first-party image asset in open-source package: {rel_path}")
         if path.suffix == ".py":
             text = path.read_text(encoding="utf-8")
@@ -169,6 +188,13 @@ def check_public_metadata(errors: list[str]) -> None:
         errors.append("README still describes an anonymous release")
     if title not in readme or title not in citation:
         errors.append("public title is inconsistent across README and CITATION.cff")
+    for public_url in (
+        "https://arxiv.org/abs/2608.00220",
+        "https://sylvain-wei.github.io/verifier-induced-support-reshaping/",
+        "https://github.com/sylvain-wei/verifier-induced-support-reshaping",
+    ):
+        if public_url not in readme or public_url not in citation:
+            errors.append(f"public metadata URL is inconsistent: {public_url}")
     for required_notice in ("volcengine/verl", "google-research", "allenai/IFBench"):
         if required_notice not in notices:
             errors.append(f"third-party notice missing: {required_notice}")

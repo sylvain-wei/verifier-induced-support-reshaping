@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Support reshaping route mark</title>
+  <desc id="desc">Three nodes connected by a changing route.</desc>
+  <rect width="64" height="64" rx="8" fill="#f7f3ec"/>
+  <path d="M8 44C18 17 28 17 36 33s13 13 20-12" fill="none" stroke="#65745f" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="8" cy="44" r="5" fill="#456aae"/>
+  <circle cx="36" cy="33" r="5" fill="#b1874f"/>
+  <circle cx="56" cy="21" r="5" fill="#ad5d61"/>
+</svg>

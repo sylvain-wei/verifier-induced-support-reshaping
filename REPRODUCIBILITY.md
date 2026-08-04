@@ -16,6 +16,7 @@ reproduction.
 | Full paper training runs | Partial code release | GPU stack, site-specific launcher/scheduler configuration, datasets, and compute |
 | OPD experiments | Partial code release | External `OPD_LAB_ROOT`, teacher checkpoints, and output storage |
 | Published numeric table inspection | Supported | Released CSV/TeX files under `analysis/paper/tables/` |
+| Inspection of curated documentation figures | Supported | Static vector exports under `docs/assets/figures/` |
 | Regeneration of every table and figure | Not supported from this repository alone | Raw logs, intermediate CSVs, checkpoints, rollouts, and excluded rendering code |
 
 ## External model artifacts
@@ -84,6 +85,20 @@ files for full regeneration:
 The script now reports this list cleanly instead of failing with an unexplained
 traceback.
 
+## Documentation figure artifacts
+
+The project page and README include a curated set of static paper figures under
+`docs/assets/figures/`. These files were recovered from the official
+arXiv:2608.00220v1 TeX source and converted from the source vector PDFs to SVG
+for web delivery. Their item-by-item provenance and the CC BY 4.0 paper-figure
+license are recorded in `docs/assets/figures/README.md`.
+
+These exports are documentation artifacts, not a release of the manuscript
+figure-generation pipeline. The repository still does not include the raw data,
+intermediate analysis artifacts, or general rendering and styling code needed
+to regenerate all paper figures. Adding the static exports therefore does not
+change the end-to-end reproduction boundary described above.
+
 ## Release procedure
 
 1. Finish all content changes.
@@ -92,8 +107,9 @@ traceback.
 4. Run shell syntax checks for released `.sh` files.
 5. Run `python scripts/rebuild_manifest.py`.
 6. Run `python verify_release.py`.
-7. Create a clean Git repository or release archive and scan its full history.
-8. Tag the commit used by the corresponding arXiv version.
+7. Validate the static project page, links, and GitHub Pages workflow.
+8. Create a clean Git repository or release archive and scan its full history.
+9. Tag the commit used by the corresponding arXiv version.
 
 The manifest must be rebuilt last because every intentional content change
 changes one or more SHA-256 values.
