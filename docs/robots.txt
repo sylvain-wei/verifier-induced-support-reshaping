@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sylvain-wei.github.io/verifier-induced-support-reshaping/sitemap.xml

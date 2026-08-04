@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Verifier-Induced Support Reshaping in On-Policy Optimization</title>
+  <meta name="description" content="Project page for Verifier-Induced Support Reshaping in On-Policy Optimization, an arXiv preprint on how on-policy verifiers reshape future trainability.">
+  <link rel="canonical" href="https://sylvain-wei.github.io/verifier-induced-support-reshaping/">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+
+  <meta property="og:title" content="Verifier-Induced Support Reshaping in On-Policy Optimization">
+  <meta property="og:description" content="On-policy verifiers reshape which behaviors remain reachable, rewardable, and trainable next.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://sylvain-wei.github.io/verifier-induced-support-reshaping/">
+  <meta property="og:image" content="https://sylvain-wei.github.io/verifier-induced-support-reshaping/assets/og-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Title card and overview figure for Verifier-Induced Support Reshaping in On-Policy Optimization">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Verifier-Induced Support Reshaping in On-Policy Optimization">
+  <meta name="twitter:description" content="How on-policy verifiers reshape future trainability.">
+  <meta name="twitter:image" content="https://sylvain-wei.github.io/verifier-induced-support-reshaping/assets/og-card.png">
+
+  <meta name="citation_title" content="Verifier-Induced Support Reshaping in On-Policy Optimization">
+  <meta name="citation_author" content="Shaohang Wei">
+  <meta name="citation_author" content="Zikun Su">
+  <meta name="citation_author" content="Feifan Song">
+  <meta name="citation_author" content="Wen Luo">
+  <meta name="citation_author" content="Wei Li">
+  <meta name="citation_author" content="Guangyue Peng">
+  <meta name="citation_author" content="Houfeng Wang">
+  <meta name="citation_publication_date" content="2026/07/31">
+  <meta name="citation_pdf_url" content="https://arxiv.org/pdf/2608.00220">
+  <meta name="citation_arxiv_id" content="2608.00220">
+  <meta name="citation_doi" content="10.48550/arXiv.2608.00220">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "Verifier-Induced Support Reshaping in On-Policy Optimization",
+    "description": "A study of how verifier choice in on-policy RLVR changes effective rewardable support and future trainability.",
+    "datePublished": "2026-07-31",
+    "url": "https://sylvain-wei.github.io/verifier-induced-support-reshaping/",
+    "author": [
+      {"@type": "Person", "name": "Shaohang Wei", "affiliation": {"@type": "Organization", "name": "Peking University"}},
+      {"@type": "Person", "name": "Zikun Su", "affiliation": {"@type": "Organization", "name": "BUPT"}},
+      {"@type": "Person", "name": "Feifan Song", "affiliation": {"@type": "Organization", "name": "Peking University"}},
+      {"@type": "Person", "name": "Wen Luo", "affiliation": {"@type": "Organization", "name": "Peking University"}},
+      {"@type": "Person", "name": "Wei Li", "affiliation": {"@type": "Organization", "name": "Peking University"}},
+      {"@type": "Person", "name": "Guangyue Peng", "affiliation": {"@type": "Organization", "name": "Peking University"}},
+      {"@type": "Person", "name": "Houfeng Wang", "affiliation": {"@type": "Organization", "name": "Peking University"}}
+    ],
+    "identifier": ["arXiv:2608.00220", "https://doi.org/10.48550/arXiv.2608.00220"],
+    "sameAs": [
+      "https://arxiv.org/abs/2608.00220",
+      "https://github.com/sylvain-wei/verifier-induced-support-reshaping"
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header" data-header>
+    <nav class="nav-shell" aria-label="Primary navigation">
+      <a class="wordmark" href="#overview" aria-label="Verifier-Induced Support Reshaping home">
+        <svg aria-hidden="true" viewBox="0 0 44 24"><path d="M2 17C9 6 15 5 22 13s13 6 20-5"/><circle cx="2" cy="17" r="2"/><circle cx="22" cy="13" r="2"/><circle cx="42" cy="8" r="2"/></svg>
+        <span>Support Reshaping</span>
+      </a>
+      <div class="nav-links">
+        <a href="#overview">Overview</a>
+        <a href="#findings">Findings</a>
+        <a href="#mechanism">Mechanism</a>
+        <a href="#preservation">Preservation</a>
+        <a href="#paper">Paper</a>
+        <a href="#code">Code</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <section class="hero" id="overview" aria-labelledby="paper-title">
+      <div class="hero-copy reading-column">
+        <h1 id="paper-title">Verifier-Induced Support Reshaping in On-Policy Optimization</h1>
+        <p class="authors">Shaohang Wei<sup>1</sup>, Zikun Su<sup>2</sup>, Feifan Song<sup>1</sup>, Wen Luo<sup>1</sup>, Wei Li<sup>1</sup>, Guangyue Peng<sup>1</sup>, and Houfeng Wang<sup>1</sup></p>
+        <p class="affiliations"><sup>1</sup>Peking University <span aria-hidden="true">·</span> <sup>2</sup>BUPT</p>
+        <p class="publication">arXiv preprint, 2026.</p>
+        <nav class="resource-links" aria-label="Paper resources">
+          <a href="https://arxiv.org/abs/2608.00220">Paper</a>
+          <a href="https://arxiv.org/pdf/2608.00220">PDF</a>
+          <a href="https://github.com/sylvain-wei/verifier-induced-support-reshaping">Code</a>
+          <a href="#citation">Citation</a>
+        </nav>
+        <p class="thesis">On-policy verifiers do more than score sampled trajectories. They reshape which behaviors remain reachable, rewardable, and trainable next.</p>
+      </div>
+
+      <figure class="hero-figure wide-column">
+        <a class="figure-link" href="assets/figures/fig1-overview.svg" data-zoom data-alt="Paper overview contrasting backward-looking catastrophic forgetting with forward-looking support reshaping, then showing the bidirectional Math-RLVR and IF-RLVR study." data-caption="Figure 1. Verifiers reshape what on-policy training can learn next.">
+          <img src="assets/figures/fig1-overview.svg" width="1200" height="474" alt="Paper overview contrasting backward-looking catastrophic forgetting with forward-looking support reshaping, then showing the bidirectional Math-RLVR and IF-RLVR study.">
+          <span class="zoom-hint">Open figure <span aria-hidden="true">↗</span></span>
+        </a>
+        <figcaption><strong>Figure 1.</strong> Catastrophic forgetting looks back at retained performance; support reshaping looks ahead at future trainability. The study tests both training orders with Math-RLVR and IF-RLVR.</figcaption>
+      </figure>
+    </section>
+
+    <section class="concept section-space" aria-labelledby="concept-title">
+      <div class="reading-column">
+        <h2 id="concept-title">Looking forward, not only looking back</h2>
+        <p class="lead">A capability can remain possible in principle yet become too rare to appear within the rollouts available to the next on-policy stage.</p>
+      </div>
+      <div class="concept-comparison wide-column">
+        <article>
+          <p class="concept-number" aria-hidden="true">01</p>
+          <h3>Catastrophic forgetting</h3>
+          <p>Asks what performance or previously learned capability remains after adaptation. It is retrospective.</p>
+        </article>
+        <svg class="route-mark" aria-hidden="true" viewBox="0 0 180 80">
+          <path d="M4 52C40 6 73 68 105 31s49-18 70-5"/>
+          <path d="m167 18 10 8-12 5"/>
+        </svg>
+        <article>
+          <p class="concept-number" aria-hidden="true">02</p>
+          <h3>Support reshaping</h3>
+          <p>Asks what reward-positive trajectory remains likely enough to discover and reinforce next. It is prospective and budget-dependent.</p>
+        </article>
+      </div>
+      <blockquote class="pull-quote reading-column">“A verifier does more than improve what the policy does now; it changes what the policy can still learn next.”</blockquote>
+    </section>
+
+    <section class="metrics-band" aria-labelledby="metrics-title">
+      <div class="wide-column metrics-layout">
+        <div>
+          <h2 id="metrics-title">Four measurements, one sampling question</h2>
+          <p>Repeated verifier-scored rollouts reveal both average success and the boundary of what remains searchable.</p>
+        </div>
+        <dl class="metric-definitions">
+          <div><dt>pass@1 / rollout mean</dt><dd>The expected success rate of one stochastic rollout.</dd></div>
+          <div><dt>best@k</dt><dd>Whether at least one of <em>k</em> sampled responses succeeds.</dd></div>
+          <div><dt>pass-count</dt><dd>The number of successful rollouts for a prompt.</dd></div>
+          <div><dt>Joint support, J = C ∧ F</dt><dd>Correctness and strict following in the same response.</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="section-space" id="findings" aria-labelledby="findings-title">
+      <div class="reading-column section-intro">
+        <h2 id="findings-title">A bidirectional test of future trainability</h2>
+        <p>Starting from the same policy in each model family, one branch receives Math-RLVR and is evaluated for instruction-following support; the other receives IF-RLVR and is evaluated for math support. Each branch is then continued with the opposite verifier.</p>
+        <p class="caveat">Each training configuration has one fixed-seed run. Repeated rollouts measure sampling variation within a policy, not uncertainty across independent training seeds.</p>
+      </div>
+
+      <div class="study-path wide-column" role="group" aria-label="Bidirectional experimental setup">
+        <div><span>Shared Base</span><small>Qwen3-8B-Base<br>Qwen2.5-Math-7B</small></div>
+        <svg aria-hidden="true" viewBox="0 0 120 64"><path d="M2 32h104"/><path d="m96 22 11 10-11 10"/></svg>
+        <div class="math-path"><span>Math-RLVR</span><small>Measure IF support<br>then continue with IF</small></div>
+        <div class="if-path"><span>IF-RLVR</span><small>Measure math support<br>then continue with math</small></div>
+      </div>
+
+      <article class="evidence-block wide-column" aria-labelledby="finding-a-title">
+        <div class="evidence-copy">
+          <p class="finding-index">Finding A</p>
+          <h3 id="finding-a-title">Average success increases while coverage under repeated sampling decreases</h3>
+          <p>Math-RLVR moves mixed instruction-following prompts toward both extremes. An average rollout succeeds more often, yet a 32-rollout search finds a successful response for fewer prompts.</p>
+        </div>
+        <figure class="scientific-figure">
+          <a class="figure-link" href="assets/figures/fig2-if-polarization.svg" data-zoom data-alt="Figure 2 shows pass@1 increasing, best@32 decreasing, and mixed instruction-following prompts shifting toward all-correct and all-wrong buckets under Math-RLVR." data-caption="Figure 2. Math-RLVR raises average instruction-following success while polarizing prompt outcomes.">
+            <img loading="lazy" src="assets/figures/fig2-if-polarization.svg" width="1200" height="484" alt="Figure 2 shows pass@1 increasing, best@32 decreasing, and mixed instruction-following prompts shifting toward all-correct and all-wrong buckets under Math-RLVR.">
+            <span class="zoom-hint">Open figure <span aria-hidden="true">↗</span></span>
+          </a>
+          <figcaption><strong>Figure 2.</strong> Math-RLVR raises average IF success while polarizing prompt outcomes. Mixed prompts move toward all-correct and all-wrong buckets.</figcaption>
+        </figure>
+        <section class="table-wrap" tabindex="0" aria-label="Final checkpoint changes in instruction-following support">
+          <table>
+            <caption>Final checkpoint minus Base</caption>
+            <thead><tr><th scope="col">Model</th><th scope="col">Benchmark</th><th scope="col">Δ pass@1</th><th scope="col">Δ best@32</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Qwen3-8B-Base</th><td>IFEval</td><td class="positive">+0.065</td><td class="negative">-0.098</td></tr>
+              <tr><th scope="row">Qwen3-8B-Base</th><td>IFBench</td><td class="positive">+0.032</td><td class="negative">-0.067</td></tr>
+              <tr><th scope="row">Qwen2.5-Math-7B</th><td>IFEval</td><td class="positive">+0.079</td><td class="negative">-0.114</td></tr>
+              <tr><th scope="row">Qwen2.5-Math-7B</th><td>IFBench</td><td class="positive">+0.016</td><td class="negative">-0.037</td></tr>
+            </tbody>
+          </table>
+        </section>
+      </article>
+
+      <article class="evidence-block wide-column" aria-labelledby="finding-b-title">
+        <div class="evidence-copy split-copy">
+          <div>
+            <p class="finding-index">Finding B</p>
+            <h3 id="finding-b-title">IF-RLVR lowers math searchability</h3>
+          </div>
+          <div>
+            <p>AIME best@k falls at every tested budget, while visible openings move from deliberative-reasoning initiation (DRI) toward direct-answer initiation (DAI).</p>
+            <p class="caveat"><strong>Pearson r = -0.85 is correlational.</strong> DRI and DAI classify the visible response opening; they do not reveal a hidden chain of thought or internal cognitive state.</p>
+          </div>
+        </div>
+        <figure class="scientific-figure">
+          <a class="figure-link" href="assets/figures/fig3-math-searchability.svg" data-zoom data-alt="Figure 3 shows AIME best@k declining for k equal to 4, 8, 16, and 32, DAI openings becoming dominant, and a negative checkpoint-level association between DAI share and best@32." data-caption="Figure 3. IF-RLVR lowers math searchability as visible response openings shift from DRI to DAI.">
+            <img loading="lazy" src="assets/figures/fig3-math-searchability.svg" width="1200" height="443" alt="Figure 3 shows AIME best@k declining for k equal to 4, 8, 16, and 32, DAI openings becoming dominant, and a negative checkpoint-level association between DAI share and best@32.">
+            <span class="zoom-hint">Open figure <span aria-hidden="true">↗</span></span>
+          </a>
+          <figcaption><strong>Figure 3.</strong> The result is behavioral and correlational: it does not show that mathematical ability is erased or that DAI alone causes lower searchability.</figcaption>
+        </figure>
+      </article>
+    </section>
+
+    <section class="mechanism-section section-space" id="mechanism" aria-labelledby="mechanism-title">
+      <div class="reading-column section-intro">
+        <h2 id="mechanism-title">The response opening is a localized control point</h2>
+        <p>Distributional analysis first locates the largest change. Controlled decoding interventions then test whether route selection itself changes downstream searchability. These are distinct pieces of evidence.</p>
+      </div>
+
+      <div class="mechanism-grid wide-column">
+        <article>
+          <p class="finding-index">Localization</p>
+          <h3>The first token moves most</h3>
+          <p>Mean Jensen-Shannon divergence is largest at the first generated token in every tested model, RLVR branch, and benchmark combination. On AIME, the first-to-interior ratio ranges from 9.8× to 106.7×.</p>
+          <p>High-divergence positions mostly reuse candidates already supported by Base, although IF-RLVR can also promote an initially low-probability opening token.</p>
+        </article>
+        <figure class="scientific-figure compact-figure">
+          <a class="figure-link" href="assets/figures/fig6-opening-divergence.svg" data-zoom data-alt="Figure 6 plots next-token Jensen-Shannon divergence by response position, with the largest average divergence at the first generated token across all tested settings." data-caption="Figure 6. RLVR changes next-token distributions most at the response opening.">
+            <img loading="lazy" src="assets/figures/fig6-opening-divergence.svg" width="1000" height="573" alt="Figure 6 plots next-token Jensen-Shannon divergence by response position, with the largest average divergence at the first generated token across all tested settings.">
+            <span class="zoom-hint">Open figure <span aria-hidden="true">↗</span></span>
+          </a>
+          <figcaption><strong>Figure 6.</strong> Position-wise divergence localizes the largest policy shift but does not by itself establish a causal route effect.</figcaption>
+        </figure>
+      </div>
+
+      <div class="intervention wide-column">
+        <div class="intervention-copy">
+          <p class="finding-index">Controlled intervention</p>
+          <h3>Changing route entry changes math searchability</h3>
+          <p>From IF-RLVR checkpoints, forcing Base-side or DRI openings raises best@32 for both model families on AIME and MATH-500. A position sweep shows that the route-label effect is concentrated near the response opening.</p>
+          <p class="caveat">The reverse intervention is not symmetric across model families. The evidence supports a causal, localized route-entry effect <em>in the tested settings</em>, not a broad rewrite or erasure of downstream reasoning.</p>
+        </div>
+        <div class="paired-figures">
+          <figure class="scientific-figure">
+            <a class="figure-link" href="assets/figures/fig8-opening-intervention-a.svg" data-zoom data-alt="Figure 8a compares math best@32 under free decoding, forced route tokens, and forced DRI or DAI prefixes for Base and IF-RLVR checkpoints across two model families." data-caption="Figure 8a. Forced opening routes change math searchability.">
+              <img loading="lazy" src="assets/figures/fig8-opening-intervention-a.svg" width="1100" height="531" alt="Figure 8a compares math best@32 under free decoding, forced route tokens, and forced DRI or DAI prefixes for Base and IF-RLVR checkpoints across two model families.">
+              <span class="zoom-hint">Open figure <span aria-hidden="true">↗</span></span>
+            </a>
+            <figcaption><strong>Figure 8a.</strong> Free decoding compared with forced route-token and prefix conditions.</figcaption>
+          </figure>
+          <figure class="scientific-figure">
+            <a class="figure-link" href="assets/figures/fig8-opening-intervention-b.svg" data-zoom data-alt="Figure 8b sweeps the forced IF-side route token across response positions, showing that DRI suppression occurs near the opening and recovers at later positions." data-caption="Figure 8b. The route effect is concentrated near the response opening.">
+              <img loading="lazy" src="assets/figures/fig8-opening-intervention-b.svg" width="1100" height="465" alt="Figure 8b sweeps the forced IF-side route token across response positions, showing that DRI suppression occurs near the opening and recovers at later positions.">
+              <span class="zoom-hint">Open figure <span aria-hidden="true">↗</span></span>
+            </a>
+            <figcaption><strong>Figure 8b.</strong> The same IF-side token is forced at different decoded positions.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-space" id="preservation" aria-labelledby="preservation-title">
+      <div class="reading-column section-intro">
+        <h2 id="preservation-title">Preservation levers help partially, not uniformly</h2>
+        <p>Sequential training, reference-policy constraints, routing priors, and on-policy distillation each expose a different limit. None is a general solution in the reported experiments.</p>
+      </div>
+
+      <div class="preservation-list wide-column">
+        <article><span>01</span><h3>Sequence matters</h3><p>After IF-first training, the mixed-support group falls from 33.6% to 1.6% by step 20 of Math-RLVR, leaving little within-group reward variation. This path does not prove irreversible loss.</p></article>
+        <article><span>02</span><h3>Reference KL trades objectives</h3><p>During Math→IF training, stronger reference constraints retain more math performance but yield smaller IF gains. No tested coefficient retains math while matching unconstrained IF adaptation.</p></article>
+        <article><span>03</span><h3>Teacher state matters</h3><p>With a converged IF teacher, MATH-500-128 mean@16 falls from 0.3433 to 0.0879 and shortcut responses rise from 4.5% to 18.8%. Across the sampled teachers, teacher and student shifts are negatively associated (Spearman ρ = -0.594); a coarse scan of four earlier states favors different target and retention outcomes.</p></article>
+      </div>
+
+      <div class="preservation-media wide-column">
+        <figure class="scientific-figure">
+          <a class="figure-link" href="assets/figures/fig9-dri-prior.svg" data-zoom data-alt="Figure 9 shows that a soft DRI-biased prior delays the shift toward DAI openings, but every tested condition reaches a DAI rate of one by training step 100." data-caption="Figure 9. A DRI-biased prior delays but does not prevent DAI dominance in the reported run.">
+            <img loading="lazy" src="assets/figures/fig9-dri-prior.svg" width="1200" height="528" alt="Figure 9 shows that a soft DRI-biased prior delays the shift toward DAI openings, but every tested condition reaches a DAI rate of one by training step 100.">
+            <span class="zoom-hint">Open figure <span aria-hidden="true">↗</span></span>
+          </a>
+          <figcaption><strong>Figure 9.</strong> A one-time DRI prior changes when the observed shift occurs, but not the endpoint route in this run.</figcaption>
+        </figure>
+        <figure class="scientific-figure">
+          <a class="figure-link" href="assets/figures/fig11-teacher-state.svg" data-zoom data-alt="Figure 11 compares four IF-RLVR teacher checkpoints for on-policy distillation, showing different trade-offs between matched IFEval transfer, MATH-500 retention, and contentful versus shortcut responses." data-caption="Figure 11. Different teacher states favor different OPD outcomes.">
+            <img loading="lazy" src="assets/figures/fig11-teacher-state.svg" width="1200" height="423" alt="Figure 11 compares four IF-RLVR teacher checkpoints for on-policy distillation, showing different trade-offs between matched IFEval transfer, MATH-500 retention, and contentful versus shortcut responses.">
+            <span class="zoom-hint">Open figure <span aria-hidden="true">↗</span></span>
+          </a>
+          <figcaption><strong>Figure 11.</strong> Among four sampled teacher states, T2/40 gives the highest matched IFEval mean@16, while T1/20 is the only student that improves MATH-500 mean@16 (+0.93 pp). This scan does not establish a global optimum.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="joint-section section-space" aria-labelledby="joint-title">
+      <div class="reading-column section-intro">
+        <h2 id="joint-title">Marginal gains combine only partly in one response</h2>
+        <p>MathIF and ReasonIF provide an independent endpoint stress test. Correctness <em>C</em> and strict instruction following <em>F</em> can improve in different responses; joint support requires <em>J = C ∧ F</em> in the same rollout.</p>
+      </div>
+      <section class="table-wrap joint-table wide-column" tabindex="0" aria-label="Marginal and joint support on MathIF and ReasonIF">
+        <table>
+          <caption>Table 3. Marginal and joint support, averaged over 16 rollouts on 290 prompts per benchmark</caption>
+          <thead><tr><th scope="col">Benchmark</th><th scope="col">Checkpoint</th><th scope="col">Correctness C</th><th scope="col">Following F</th><th scope="col">Joint J = C ∧ F</th></tr></thead>
+          <tbody>
+            <tr><th scope="rowgroup" rowspan="3">MathIF</th><td>Base</td><td>0.359</td><td>0.250</td><td>0.094</td></tr>
+            <tr><td>Math-RLVR</td><td><strong>0.472</strong></td><td>0.253</td><td>0.118</td></tr>
+            <tr><td>IF-RLVR</td><td>0.377</td><td><strong>0.431</strong></td><td><strong>0.148</strong></td></tr>
+            <tr><th scope="rowgroup" rowspan="3">ReasonIF</th><td>Base</td><td>0.467</td><td>0.239</td><td>0.109</td></tr>
+            <tr><td>Math-RLVR</td><td><strong>0.522</strong></td><td>0.235</td><td>0.126</td></tr>
+            <tr><td>IF-RLVR</td><td>0.438</td><td><strong>0.391</strong></td><td><strong>0.171</strong></td></tr>
+          </tbody>
+        </table>
+      </section>
+      <p class="reading-column table-note">Target-aligned marginal gains are substantially larger than the resulting joint gains. Improving one verifier does not automatically produce responses that are both correct and constraint-following.</p>
+    </section>
+
+    <section class="implication section-space" aria-labelledby="implication-title">
+      <div class="reading-column">
+        <h2 id="implication-title">Verifier choice is a forward-looking training intervention</h2>
+        <p class="lead">Endpoint performance is not enough to characterize an on-policy training stage. Searchability and reward variation determine what a later verifier can still discover and amplify.</p>
+        <p>Effective rewardable support should be monitored across rollout budgets and plausible future objectives. Preservation methods should be evaluated jointly by target gain, retained cross-verifier support, and response quality—not by the current verifier alone.</p>
+      </div>
+    </section>
+
+    <section class="paper-section section-space" id="paper" aria-labelledby="paper-section-title">
+      <div class="wide-column paper-layout">
+        <div>
+          <h2 id="paper-section-title">Paper</h2>
+          <p>Verifier-Induced Support Reshaping in On-Policy Optimization</p>
+          <p>arXiv:2608.00220 [cs.LG], with cs.CL as a secondary category. First submitted July 31, 2026.</p>
+          <div class="resource-links">
+            <a href="https://arxiv.org/abs/2608.00220">Abstract</a>
+            <a href="https://arxiv.org/pdf/2608.00220">PDF</a>
+            <a href="https://doi.org/10.48550/arXiv.2608.00220">DOI</a>
+          </div>
+          <p class="correspondence">Correspondence: <a href="mailto:wanghf@pku.edu.cn">Houfeng Wang</a> and <a href="mailto:shaohang@stu.pku.edu.cn">Shaohang Wei</a>.</p>
+        </div>
+        <div id="citation">
+          <div class="citation-heading">
+            <h3>Citation</h3>
+            <button class="copy-button" type="button" data-copy-citation>Copy BibTeX</button>
+          </div>
+          <pre tabindex="0"><code id="bibtex">@misc{wei2026verifier,
+  title         = {Verifier-Induced Support Reshaping in On-Policy Optimization},
+  author        = {Shaohang Wei and Zikun Su and Feifan Song and Wen Luo and Wei Li and Guangyue Peng and Houfeng Wang},
+  year          = {2026},
+  eprint        = {2608.00220},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG},
+  doi           = {10.48550/arXiv.2608.00220},
+  url           = {https://arxiv.org/abs/2608.00220}
+}</code></pre>
+          <p class="copy-status" role="status" aria-live="polite" data-copy-status></p>
+          <p><a href="citation.bib">Download BibTeX</a> · <a href="https://github.com/sylvain-wei/verifier-induced-support-reshaping/blob/main/CITATION.cff">CITATION.cff</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="scope-section" id="code" aria-labelledby="scope-title">
+      <div class="wide-column scope-layout">
+        <div>
+          <h2 id="scope-title">Code, scope, and reproducibility</h2>
+          <p>The release supports inspection of training recipes, verifier implementations, evaluation protocols, non-visual analyses, and selected numeric tables. It is not a one-command reproduction of every reported result.</p>
+        </div>
+        <div class="scope-columns">
+          <div>
+            <h3>Included</h3>
+            <ul>
+              <li>verl/DAPO framework snapshot and reference recipes</li>
+              <li>Evaluation, verifier, aggregation, and unit-test code</li>
+              <li>Selected paper tables and curated static figures</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Not included</h3>
+            <ul>
+              <li>Fine-tuned checkpoints and generated rollouts</li>
+              <li>Raw experiment logs and most intermediate CSVs</li>
+              <li>Site-specific launchers and general figure-rendering code</li>
+            </ul>
+          </div>
+        </div>
+        <div class="resource-links scope-links">
+          <a href="https://github.com/sylvain-wei/verifier-induced-support-reshaping">Repository</a>
+          <a href="https://github.com/sylvain-wei/verifier-induced-support-reshaping/blob/main/REPRODUCIBILITY.md">Reproducibility matrix</a>
+          <a href="https://github.com/sylvain-wei/verifier-induced-support-reshaping/tree/main/eval/configs">Evaluation configs</a>
+          <a href="https://github.com/sylvain-wei/verifier-induced-support-reshaping/tree/main/analysis/paper/tables">Released tables</a>
+          <a href="https://github.com/sylvain-wei/verifier-induced-support-reshaping/blob/main/LICENSE">Code license</a>
+          <a href="https://github.com/sylvain-wei/verifier-induced-support-reshaping/blob/main/THIRD_PARTY_NOTICES.md">Third-party notices</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wide-column footer-layout">
+      <p><strong>Verifier-Induced Support Reshaping in On-Policy Optimization</strong><br>Peking University · BUPT</p>
+      <p><a href="https://arxiv.org/abs/2608.00220">arXiv</a> · <a href="https://github.com/sylvain-wei/verifier-induced-support-reshaping">GitHub</a></p>
+      <p class="license-note">Code and site text: Apache-2.0. Paper figures: CC BY 4.0; see <a href="assets/figures/README.md">provenance</a>.</p>
+    </div>
+  </footer>
+
+  <dialog class="figure-dialog" data-figure-dialog aria-labelledby="figure-dialog-caption">
+    <div class="dialog-bar">
+      <p id="figure-dialog-caption" data-dialog-caption></p>
+      <button type="button" data-dialog-close>Close</button>
+    </div>
+    <div class="dialog-media"><img src="assets/figures/fig1-overview.svg" data-dialog-image alt="Expanded paper figure"></div>
+  </dialog>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
