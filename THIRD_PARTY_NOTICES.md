@@ -4,6 +4,19 @@ The repository-level Apache License 2.0 applies to first-party material unless
 a file or component states otherwise. The following third-party components are
 included or adapted in this release.
 
+## Peking University institutional mark
+
+- Official source: <https://vim.pku.edu.cn/xzzq/index.htm>
+- Included path: `docs/assets/pku-logo.svg`
+- Source file: `标志与中英文校名组合规范.eps` from the official visual identity download package
+- Rights: Peking University retains all rights in its name, emblem, and institutional identity
+
+The mark is included only to identify the authors' institutional affiliation.
+It is not covered by this repository's Apache License 2.0. The vector paths,
+wordmarks, colors, and proportions were not redrawn or altered; the official
+EPS was deterministically converted and cropped to its supplied horizontal
+lockup for web delivery. See `docs/assets/README.md` for conversion details.
+
 ## verl and DAPO recipe
 
 - Upstream: <https://github.com/volcengine/verl>

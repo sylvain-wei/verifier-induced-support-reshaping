@@ -86,6 +86,9 @@
         <h1 id="paper-title">Verifier-Induced Support Reshaping in On-Policy Optimization</h1>
         <p class="authors">Shaohang Wei<sup>1</sup>, Zikun Su<sup>2</sup>, Feifan Song<sup>1</sup>, Wen Luo<sup>1</sup>, Wei Li<sup>1</sup>, Guangyue Peng<sup>1</sup>, and Houfeng Wang<sup>1</sup></p>
         <p class="affiliations"><sup>1</sup>Peking University <span aria-hidden="true">·</span> <sup>2</sup>BUPT</p>
+        <a class="institution-mark" href="https://www.pku.edu.cn/" aria-label="Visit the official Peking University website">
+          <img src="assets/pku-logo.svg" width="1134" height="320" alt="Peking University">
+        </a>
         <p class="publication">arXiv preprint, 2026.</p>
         <nav class="resource-links" aria-label="Paper resources">
           <a href="https://arxiv.org/abs/2608.00220">Paper</a>
@@ -126,7 +129,13 @@
           <p>Asks what reward-positive trajectory remains likely enough to discover and reinforce next. It is prospective and budget-dependent.</p>
         </article>
       </div>
-      <blockquote class="pull-quote reading-column">“A verifier does more than improve what the policy does now; it changes what the policy can still learn next.”</blockquote>
+      <div class="concept-art-row wide-column">
+        <figure class="editorial-art">
+          <img loading="lazy" src="assets/illustrations/support-reachability.webp" width="971" height="1619" alt="Hand-drawn editorial illustration of two paper routes, one fading and one remaining open through a small gate.">
+          <figcaption><strong>Editorial interlude.</strong> Effective support asks what remains reachable within a finite sampling budget. Conceptual artwork—not experimental data.</figcaption>
+        </figure>
+        <blockquote class="pull-quote">“A verifier does more than improve what the policy does now; it changes what the policy can still learn next.”</blockquote>
+      </div>
     </section>
 
     <section class="metrics-band" aria-labelledby="metrics-title">
@@ -207,9 +216,15 @@
     </section>
 
     <section class="mechanism-section section-space" id="mechanism" aria-labelledby="mechanism-title">
-      <div class="reading-column section-intro">
-        <h2 id="mechanism-title">The response opening is a localized control point</h2>
-        <p>Distributional analysis first locates the largest change. Controlled decoding interventions then test whether route selection itself changes downstream searchability. These are distinct pieces of evidence.</p>
+      <div class="intro-grid wide-column">
+        <div class="section-intro">
+          <h2 id="mechanism-title">The response opening is a localized control point</h2>
+          <p>Distributional analysis first locates the largest change. Controlled decoding interventions then test whether route selection itself changes downstream searchability. These are distinct pieces of evidence.</p>
+        </div>
+        <figure class="editorial-art">
+          <img loading="lazy" src="assets/illustrations/opening-route.webp" width="971" height="1619" alt="Hand-drawn editorial illustration of a small doorway, two paper trails, and a red route tile placed at the threshold.">
+          <figcaption><strong>Editorial interlude.</strong> A route-entry metaphor for the localized opening effect. Conceptual artwork—not a model-state diagram.</figcaption>
+        </figure>
       </div>
 
       <div class="mechanism-grid wide-column">
@@ -255,9 +270,15 @@
     </section>
 
     <section class="section-space" id="preservation" aria-labelledby="preservation-title">
-      <div class="reading-column section-intro">
-        <h2 id="preservation-title">Preservation levers help partially, not uniformly</h2>
-        <p>Sequential training, reference-policy constraints, routing priors, and on-policy distillation each expose a different limit. None is a general solution in the reported experiments.</p>
+      <div class="intro-grid intro-grid--reverse wide-column">
+        <figure class="editorial-art">
+          <img loading="lazy" src="assets/illustrations/partial-preservation.webp" width="971" height="1619" alt="Hand-drawn editorial illustration of two torn paper fragments joined only partly by green thread.">
+          <figcaption><strong>Editorial interlude.</strong> A stitched-paper metaphor for partial, teacher-dependent preservation. Conceptual artwork—not experimental evidence.</figcaption>
+        </figure>
+        <div class="section-intro">
+          <h2 id="preservation-title">Preservation levers help partially, not uniformly</h2>
+          <p>Sequential training, reference-policy constraints, routing priors, and on-policy distillation each expose a different limit. None is a general solution in the reported experiments.</p>
+        </div>
       </div>
 
       <div class="preservation-list wide-column">
@@ -388,7 +409,7 @@
     <div class="wide-column footer-layout">
       <p><strong>Verifier-Induced Support Reshaping in On-Policy Optimization</strong><br>Peking University · BUPT</p>
       <p><a href="https://arxiv.org/abs/2608.00220">arXiv</a> · <a href="https://github.com/sylvain-wei/verifier-induced-support-reshaping">GitHub</a></p>
-      <p class="license-note">Code and site text: Apache-2.0. Paper figures: CC BY 4.0; see <a href="assets/figures/README.md">provenance</a>.</p>
+      <p class="license-note">Code and site text: Apache-2.0. Paper figures: CC BY 4.0. The PKU mark is excluded from the repository license; generated editorial interludes are conceptual, not scientific figures. See <a href="assets/README.md">asset provenance</a>.</p>
     </div>
   </footer>
 

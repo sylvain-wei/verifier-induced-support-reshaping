@@ -17,6 +17,7 @@ reproduction.
 | OPD experiments | Partial code release | External `OPD_LAB_ROOT`, teacher checkpoints, and output storage |
 | Published numeric table inspection | Supported | Released CSV/TeX files under `analysis/paper/tables/` |
 | Inspection of curated documentation figures | Supported | Static vector exports under `docs/assets/figures/` |
+| Inspection of non-scientific site artwork | Supported | Official institutional mark and labeled editorial illustrations under `docs/assets/` |
 | Regeneration of every table and figure | Not supported from this repository alone | Raw logs, intermediate CSVs, checkpoints, rollouts, and excluded rendering code |
 
 ## External model artifacts
@@ -98,6 +99,14 @@ figure-generation pipeline. The repository still does not include the raw data,
 intermediate analysis artifacts, or general rendering and styling code needed
 to regenerate all paper figures. Adding the static exports therefore does not
 change the end-to-end reproduction boundary described above.
+
+The project page additionally includes the official Peking University mark and
+three clearly labeled editorial interludes. The interludes are conceptual
+generated artwork and do not encode measurements, experimental results, or
+model internals. Asset-level source, generation, conversion, and licensing
+notes are recorded in `docs/assets/README.md` and
+`docs/assets/illustrations/README.md`. These site assets do not change the
+repository's scientific artifact scope.
 
 ## Release procedure
 
