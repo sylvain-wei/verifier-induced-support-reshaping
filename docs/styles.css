@@ -79,6 +79,15 @@ h1 {
 h1 span, h1 em { display: block; }
 h1 em { color: var(--burgundy); font-weight: 500; }
 
+.hero-title {
+  margin-bottom: clamp(54px, 6vw, 86px);
+  font-size: clamp(3.4rem, 6.35vw, 6.65rem);
+  line-height: 0.94;
+}
+
+.hero-title span,
+.hero-title em { display: inline; }
+
 h2 {
   margin-bottom: 26px;
   font-size: clamp(2.7rem, 5vw, 4.8rem);
@@ -982,7 +991,11 @@ pre {
   .nav-links a { font-size: 0.78rem; }
   .hero { padding-top: 28px; }
   .hero-layout { gap: 52px; margin-bottom: 74px; }
-  h1 { font-size: clamp(3.05rem, 14vw, 4.8rem); }
+  .hero-title {
+    margin-bottom: 46px;
+    font-size: clamp(2.65rem, 11.5vw, 4.8rem);
+    line-height: 0.98;
+  }
   .authors { font-size: 1rem; }
   .institution-row { align-items: flex-start; flex-direction: column; gap: 10px; }
   .institution-row > span { display: none; }
@@ -1019,7 +1032,7 @@ pre {
 @media (max-width: 430px) {
   :root { --gutter: 18px; }
   .chapter-tab, .chapter-tab--hero { margin-left: var(--gutter); }
-  h1 { font-size: 2.92rem; }
+  .hero-title { font-size: 2.45rem; }
   h2 { font-size: 2.65rem; }
   .publication { margin-bottom: 18px; }
   .resource-links { margin-bottom: 34px; }
