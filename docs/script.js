@@ -226,12 +226,17 @@
       restores.push(animation.finished.catch(() => undefined));
     });
 
-    Promise.all(restores).then(() => {
+    let finalized = false;
+    const finishRecompose = () => {
+      if (finalized) return;
+      finalized = true;
       characters.forEach((character) => character.getAnimations().forEach((animation) => animation.cancel()));
       fragment.classList.remove("is-shattered", "is-busy");
       fragment.setAttribute("aria-pressed", "false");
       fragmentAnimations.delete(fragment);
-    });
+    };
+    Promise.all(restores).then(finishRecompose);
+    window.setTimeout(finishRecompose, 1100);
     if (fragmentStatus) fragmentStatus.textContent = `${fragment.dataset.fragmentSource} excerpt recomposed.`;
   };
 
