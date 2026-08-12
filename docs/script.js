@@ -186,7 +186,7 @@
       const animation = character.animate([
         { transform: "translate(0, 0) rotate(0deg)", opacity: 1, offset: 0 },
         { transform: `translate(${dx * 0.16}px, ${lift}px) rotate(${rotation * 0.12}deg)`, opacity: 1, offset: 0.16 },
-        { transform: `translate(${dx}px, ${dy}px) rotate(${rotation}deg)`, opacity: 0.14, offset: 1 }
+        { transform: `translate(${dx}px, ${dy}px) rotate(${rotation}deg)`, opacity: 0.34, offset: 1 }
       ], {
         duration,
         delay,
