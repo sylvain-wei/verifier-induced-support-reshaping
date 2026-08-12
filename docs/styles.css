@@ -238,7 +238,7 @@ sup { font-size: 0.62em; line-height: 0; }
   position: absolute;
   z-index: 8;
   inset: 0;
-  overflow: clip;
+  overflow: hidden;
   pointer-events: none;
 }
 
@@ -262,8 +262,8 @@ sup { font-size: 0.62em; line-height: 0; }
   transition: background 180ms ease, filter 180ms ease, opacity 180ms ease;
 }
 
-.paper-fragment--left { left: clamp(-34px, -1.4vw, -16px); }
-.paper-fragment--right { right: clamp(-34px, -1.4vw, -16px); }
+.paper-fragment--left { left: 0; }
+.paper-fragment--right { right: 0; }
 .paper-fragment--math { --fragment-color: var(--math); }
 .paper-fragment--support { --fragment-color: var(--support); }
 .paper-fragment--warm { --fragment-color: var(--warm); }
@@ -929,8 +929,8 @@ pre {
   .margin-note { display: none; }
   .paper-fragment { width: 92px; opacity: 0.78; }
   .paper-fragment p { font-size: 0.55rem; }
-  .paper-fragment--left { left: -22px; }
-  .paper-fragment--right { right: -22px; }
+  .paper-fragment--left { left: 0; }
+  .paper-fragment--right { right: 0; }
   .chapter-tab, .chapter-tab--hero {
     position: relative;
     top: auto;
