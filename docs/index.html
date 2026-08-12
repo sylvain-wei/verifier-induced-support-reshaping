@@ -62,6 +62,7 @@
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
 
   <header class="site-header" data-header>
     <nav class="nav-shell" aria-label="Primary navigation">
@@ -69,7 +70,10 @@
         <svg aria-hidden="true" viewBox="0 0 44 24"><path d="M2 17C9 6 15 5 22 13s13 6 20-5"/><circle cx="2" cy="17" r="2"/><circle cx="22" cy="13" r="2"/><circle cx="42" cy="8" r="2"/></svg>
         <span>Support Reshaping</span>
       </a>
-      <div class="nav-links">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-links" data-nav-toggle>
+        <span>Contents</span><span aria-hidden="true">+</span>
+      </button>
+      <div class="nav-links" id="primary-links" data-nav-links>
         <a href="#overview">Overview</a>
         <a href="#findings">Findings</a>
         <a href="#mechanism">Mechanism</a>
@@ -80,26 +84,63 @@
     </nav>
   </header>
 
+  <aside class="edge-atlas" aria-hidden="true">
+    <svg viewBox="0 0 118 520">
+      <path class="edge-grid" d="M18 0v118M48 0v118M78 0v118M108 0v118M0 18h118M0 48h118M0 78h118M0 108h118"/>
+      <path class="edge-route" d="M18 136C104 168 21 211 83 248S31 333 96 377 41 455 67 518"/>
+      <circle cx="52" cy="158" r="4"/><circle cx="76" cy="239" r="4"/><circle cx="58" cy="320" r="4"/><circle cx="83" cy="368" r="4"/><circle cx="55" cy="448" r="4"/>
+    </svg>
+    <p>rollout<br>budget B<br>verifier V<br>policy π<sub>θ</sub></p>
+  </aside>
+
   <main id="main-content">
     <section class="hero" id="overview" aria-labelledby="paper-title">
-      <div class="hero-copy reading-column">
-        <h1 id="paper-title">Verifier-Induced Support Reshaping in On-Policy Optimization</h1>
-        <p class="authors">Shaohang Wei<sup>1</sup>, Zikun Su<sup>2</sup>, Feifan Song<sup>1</sup>, Wen Luo<sup>1</sup>, Wei Li<sup>1</sup>, Guangyue Peng<sup>1</sup>, and Houfeng Wang<sup>1</sup></p>
-        <p class="affiliations"><sup>1</sup>Peking University <span aria-hidden="true">·</span> <sup>2</sup>BUPT</p>
-        <a class="institution-mark" href="https://www.pku.edu.cn/" aria-label="Visit the official Peking University website">
-          <img src="assets/pku-logo.svg" width="1134" height="320" alt="Peking University">
-        </a>
-        <p class="publication">arXiv preprint, 2026.</p>
-        <nav class="resource-links" aria-label="Paper resources">
-          <a href="https://arxiv.org/abs/2608.00220">Paper</a>
-          <a href="https://arxiv.org/pdf/2608.00220">PDF</a>
-          <a href="https://github.com/sylvain-wei/verifier-induced-support-reshaping">Code</a>
-          <a href="#citation">Citation</a>
-        </nav>
-        <p class="thesis">On-policy verifiers do more than score sampled trajectories. They reshape which behaviors remain reachable, rewardable, and trainable next.</p>
+      <div class="chapter-tab chapter-tab--hero" aria-hidden="true"><span>01</span><small>Intro</small></div>
+      <p class="margin-note margin-note--hero" aria-hidden="true">Within a finite rollout budget, the verifier changes which future behaviors remain reachable.</p>
+      <div class="hero-layout wide-column">
+        <div class="hero-copy">
+          <h1 id="paper-title"><span>Verifier-Induced</span> <em>Support Reshaping</em> <span>in On-Policy Optimization</span></h1>
+          <p class="authors">Shaohang Wei<sup>1</sup>, Zikun Su<sup>2</sup>, Feifan Song<sup>1</sup>, Wen Luo<sup>1</sup>, Wei Li<sup>1</sup>, Guangyue Peng<sup>1</sup>, and Houfeng Wang<sup>1</sup></p>
+          <div class="institution-row">
+            <a class="institution-mark" href="https://www.pku.edu.cn/" aria-label="Visit the official Peking University website">
+              <img src="assets/pku-logo.svg" width="1134" height="320" alt="Peking University">
+            </a>
+            <span aria-hidden="true">·</span>
+            <p class="affiliations"><sup>1</sup>Peking University<br><sup>2</sup>BUPT</p>
+          </div>
+          <p class="publication">arXiv preprint, 2026.</p>
+          <nav class="resource-links" aria-label="Paper resources">
+            <a href="https://arxiv.org/abs/2608.00220">Paper</a>
+            <a href="https://arxiv.org/pdf/2608.00220">PDF</a>
+            <a href="https://github.com/sylvain-wei/verifier-induced-support-reshaping">Code</a>
+            <a href="#citation">Citation</a>
+          </nav>
+          <p class="thesis">On-policy verifiers do more than score sampled trajectories. They reshape which behaviors remain reachable, rewardable, and trainable next.</p>
+        </div>
+
+        <figure class="support-atlas" aria-labelledby="atlas-caption">
+          <svg viewBox="0 0 680 590" role="img" aria-labelledby="atlas-title atlas-desc">
+            <title id="atlas-title">Conceptual map of verifier-induced support reshaping</title>
+            <desc id="atlas-desc">Many possible trajectory routes approach a finite-rollout-budget verifier. A smaller, reranked set remains reachable on the other side.</desc>
+            <g class="atlas-grid"><path d="M495 16v116M537 16v116M579 16v116M621 16v116M663 16v116M474 37h190M474 79h190M474 121h190"/></g>
+            <g class="atlas-faint">
+              <path d="M18 142C122 124 172 214 300 238"/><path d="M18 188C137 176 181 118 300 230"/><path d="M18 234C130 248 206 168 300 247"/><path d="M18 280C124 302 208 298 300 265"/><path d="M18 326C136 304 205 376 300 283"/><path d="M18 372C143 395 209 333 300 300"/><path d="M18 418C148 452 213 385 300 316"/>
+            </g>
+            <g class="atlas-nodes atlas-nodes--faint"><circle cx="18" cy="142" r="5"/><circle cx="18" cy="188" r="5"/><circle cx="18" cy="234" r="5"/><circle cx="18" cy="280" r="5"/><circle cx="18" cy="326" r="5"/><circle cx="18" cy="372" r="5"/><circle cx="18" cy="418" r="5"/></g>
+            <g class="atlas-gate"><path d="M302 164h58l13 31v205l-13 31h-58l-13-31V195z"/><text x="331" y="309" text-anchor="middle">V</text></g>
+            <g class="atlas-active">
+              <path d="M373 236C443 220 496 151 654 164"/><path d="M373 273C472 265 504 242 654 257"/><path d="M373 309C472 312 520 347 654 339"/><path d="M373 346C464 363 536 443 654 424"/>
+            </g>
+            <g class="atlas-nodes atlas-nodes--active"><circle cx="438" cy="220" r="6"/><circle cx="512" cy="183" r="6"/><circle cx="595" cy="164" r="6"/><circle cx="458" cy="267" r="6"/><circle cx="548" cy="249" r="6"/><circle cx="459" cy="319" r="6"/><circle cx="548" cy="344" r="6"/><circle cx="450" cy="366" r="6"/><circle cx="548" cy="417" r="6"/></g>
+            <g class="atlas-copy"><text x="18" y="104">possible trajectories</text><text x="331" y="126" text-anchor="middle">verifier</text><text x="331" y="147" text-anchor="middle">finite rollout budget</text><text x="506" y="104">reachable next</text><text x="331" y="474" text-anchor="middle">effective support depends on budget B</text></g>
+            <path class="atlas-bracket" d="M289 457v20h84v-20"/>
+          </svg>
+          <figcaption id="atlas-caption"><strong>Conceptual map.</strong> The verifier reranks routes within a finite sampling budget. This illustration is not experimental data.</figcaption>
+        </figure>
       </div>
 
       <figure class="hero-figure wide-column">
+        <div class="figure-kicker"><span>Figure 1</span><span>Paper overview</span></div>
         <a class="figure-link" href="assets/figures/fig1-overview.svg" data-zoom data-alt="Paper overview contrasting backward-looking catastrophic forgetting with forward-looking support reshaping, then showing the bidirectional Math-RLVR and IF-RLVR study." data-caption="Figure 1. Verifiers reshape what on-policy training can learn next.">
           <img src="assets/figures/fig1-overview.svg" width="1200" height="474" alt="Paper overview contrasting backward-looking catastrophic forgetting with forward-looking support reshaping, then showing the bidirectional Math-RLVR and IF-RLVR study.">
           <span class="zoom-hint">Open figure <span aria-hidden="true">↗</span></span>
@@ -109,6 +150,8 @@
     </section>
 
     <section class="concept section-space" aria-labelledby="concept-title">
+      <div class="chapter-tab" aria-hidden="true"><span>02</span><small>Concept</small></div>
+      <p class="margin-note" aria-hidden="true">Not only what survived, but what can still be found next.</p>
       <div class="reading-column">
         <h2 id="concept-title">Looking forward, not only looking back</h2>
         <p class="lead">A capability can remain possible in principle yet become too rare to appear within the rollouts available to the next on-policy stage.</p>
@@ -154,6 +197,8 @@
     </section>
 
     <section class="section-space" id="findings" aria-labelledby="findings-title">
+      <div class="chapter-tab" aria-hidden="true"><span>03</span><small>Findings</small></div>
+      <p class="margin-note" aria-hidden="true">Average success and repeated-sampling coverage can move in opposite directions.</p>
       <div class="reading-column section-intro">
         <h2 id="findings-title">A bidirectional test of future trainability</h2>
         <p>Starting from the same policy in each model family, one branch receives Math-RLVR and is evaluated for instruction-following support; the other receives IF-RLVR and is evaluated for math support. Each branch is then continued with the opposite verifier.</p>
@@ -173,7 +218,13 @@
           <h3 id="finding-a-title">Average success increases while coverage under repeated sampling decreases</h3>
           <p>Math-RLVR moves mixed instruction-following prompts toward both extremes. An average rollout succeeds more often, yet a 32-rollout search finds a successful response for fewer prompts.</p>
         </div>
+        <div class="result-ledger" role="group" aria-label="Representative IFEval result for Qwen3-8B-Base">
+          <div><small>Δ pass@1</small><strong class="positive">+0.065</strong><span>average success</span></div>
+          <div class="budget-ruler" aria-hidden="true"><span>1 rollout</span><i></i><span>32 rollouts</span></div>
+          <div><small>Δ best@32</small><strong class="negative">-0.098</strong><span>prompt coverage</span></div>
+        </div>
         <figure class="scientific-figure">
+          <div class="figure-kicker"><span>Figure 2</span><span>Polarization</span></div>
           <a class="figure-link" href="assets/figures/fig2-if-polarization.svg" data-zoom data-alt="Figure 2 shows pass@1 increasing, best@32 decreasing, and mixed instruction-following prompts shifting toward all-correct and all-wrong buckets under Math-RLVR." data-caption="Figure 2. Math-RLVR raises average instruction-following success while polarizing prompt outcomes.">
             <img loading="lazy" src="assets/figures/fig2-if-polarization.svg" width="1200" height="484" alt="Figure 2 shows pass@1 increasing, best@32 decreasing, and mixed instruction-following prompts shifting toward all-correct and all-wrong buckets under Math-RLVR.">
             <span class="zoom-hint">Open figure <span aria-hidden="true">↗</span></span>
@@ -206,6 +257,7 @@
           </div>
         </div>
         <figure class="scientific-figure">
+          <div class="figure-kicker"><span>Figure 3</span><span>Correlation</span></div>
           <a class="figure-link" href="assets/figures/fig3-math-searchability.svg" data-zoom data-alt="Figure 3 shows AIME best@k declining for k equal to 4, 8, 16, and 32, DAI openings becoming dominant, and a negative checkpoint-level association between DAI share and best@32." data-caption="Figure 3. IF-RLVR lowers math searchability as visible response openings shift from DRI to DAI.">
             <img loading="lazy" src="assets/figures/fig3-math-searchability.svg" width="1200" height="443" alt="Figure 3 shows AIME best@k declining for k equal to 4, 8, 16, and 32, DAI openings becoming dominant, and a negative checkpoint-level association between DAI share and best@32.">
             <span class="zoom-hint">Open figure <span aria-hidden="true">↗</span></span>
@@ -216,6 +268,8 @@
     </section>
 
     <section class="mechanism-section section-space" id="mechanism" aria-labelledby="mechanism-title">
+      <div class="chapter-tab" aria-hidden="true"><span>04</span><small>Mechanism</small></div>
+      <p class="margin-note" aria-hidden="true">Correlation locates the pattern. Controlled openings test the route.</p>
       <div class="intro-grid wide-column">
         <div class="section-intro">
           <h2 id="mechanism-title">The response opening is a localized control point</h2>
@@ -235,12 +289,21 @@
           <p>High-divergence positions mostly reuse candidates already supported by Base, although IF-RLVR can also promote an initially low-probability opening token.</p>
         </article>
         <figure class="scientific-figure compact-figure">
+          <div class="figure-kicker"><span>Figure 6</span><span>Localization</span></div>
           <a class="figure-link" href="assets/figures/fig6-opening-divergence.svg" data-zoom data-alt="Figure 6 plots next-token Jensen-Shannon divergence by response position, with the largest average divergence at the first generated token across all tested settings." data-caption="Figure 6. RLVR changes next-token distributions most at the response opening.">
             <img loading="lazy" src="assets/figures/fig6-opening-divergence.svg" width="1000" height="573" alt="Figure 6 plots next-token Jensen-Shannon divergence by response position, with the largest average divergence at the first generated token across all tested settings.">
             <span class="zoom-hint">Open figure <span aria-hidden="true">↗</span></span>
           </a>
           <figcaption><strong>Figure 6.</strong> Position-wise divergence localizes the largest policy shift but does not by itself establish a causal route effect.</figcaption>
         </figure>
+      </div>
+
+      <div class="evidence-bridge wide-column" role="group" aria-label="Evidence progression from localization to intervention">
+        <span>distribution shift</span>
+        <strong>correlation locates</strong>
+        <svg aria-hidden="true" viewBox="0 0 220 42"><path d="M2 21h196"/><path d="m188 11 11 10-11 10"/><circle cx="48" cy="21" r="4"/><circle cx="110" cy="21" r="4"/><circle cx="170" cy="21" r="4"/></svg>
+        <strong>intervention tests</strong>
+        <span>route entry</span>
       </div>
 
       <div class="intervention wide-column">
@@ -252,6 +315,7 @@
         </div>
         <div class="paired-figures">
           <figure class="scientific-figure">
+            <div class="figure-kicker"><span>Figure 8a</span><span>Route intervention</span></div>
             <a class="figure-link" href="assets/figures/fig8-opening-intervention-a.svg" data-zoom data-alt="Figure 8a compares math best@32 under free decoding, forced route tokens, and forced DRI or DAI prefixes for Base and IF-RLVR checkpoints across two model families." data-caption="Figure 8a. Forced opening routes change math searchability.">
               <img loading="lazy" src="assets/figures/fig8-opening-intervention-a.svg" width="1100" height="531" alt="Figure 8a compares math best@32 under free decoding, forced route tokens, and forced DRI or DAI prefixes for Base and IF-RLVR checkpoints across two model families.">
               <span class="zoom-hint">Open figure <span aria-hidden="true">↗</span></span>
@@ -259,6 +323,7 @@
             <figcaption><strong>Figure 8a.</strong> Free decoding compared with forced route-token and prefix conditions.</figcaption>
           </figure>
           <figure class="scientific-figure">
+            <div class="figure-kicker"><span>Figure 8b</span><span>Position sweep</span></div>
             <a class="figure-link" href="assets/figures/fig8-opening-intervention-b.svg" data-zoom data-alt="Figure 8b sweeps the forced IF-side route token across response positions, showing that DRI suppression occurs near the opening and recovers at later positions." data-caption="Figure 8b. The route effect is concentrated near the response opening.">
               <img loading="lazy" src="assets/figures/fig8-opening-intervention-b.svg" width="1100" height="465" alt="Figure 8b sweeps the forced IF-side route token across response positions, showing that DRI suppression occurs near the opening and recovers at later positions.">
               <span class="zoom-hint">Open figure <span aria-hidden="true">↗</span></span>
@@ -270,6 +335,8 @@
     </section>
 
     <section class="section-space" id="preservation" aria-labelledby="preservation-title">
+      <div class="chapter-tab chapter-tab--green" aria-hidden="true"><span>05</span><small>Preservation</small></div>
+      <p class="margin-note margin-note--green" aria-hidden="true">Partial, conditional, and teacher-state dependent.</p>
       <div class="intro-grid intro-grid--reverse wide-column">
         <figure class="editorial-art">
           <img loading="lazy" src="assets/illustrations/partial-preservation.webp" width="971" height="1619" alt="Hand-drawn editorial illustration of two torn paper fragments joined only partly by green thread.">
@@ -289,6 +356,7 @@
 
       <div class="preservation-media wide-column">
         <figure class="scientific-figure">
+          <div class="figure-kicker"><span>Figure 9</span><span>Routing prior</span></div>
           <a class="figure-link" href="assets/figures/fig9-dri-prior.svg" data-zoom data-alt="Figure 9 shows that a soft DRI-biased prior delays the shift toward DAI openings, but every tested condition reaches a DAI rate of one by training step 100." data-caption="Figure 9. A DRI-biased prior delays but does not prevent DAI dominance in the reported run.">
             <img loading="lazy" src="assets/figures/fig9-dri-prior.svg" width="1200" height="528" alt="Figure 9 shows that a soft DRI-biased prior delays the shift toward DAI openings, but every tested condition reaches a DAI rate of one by training step 100.">
             <span class="zoom-hint">Open figure <span aria-hidden="true">↗</span></span>
@@ -296,6 +364,7 @@
           <figcaption><strong>Figure 9.</strong> A one-time DRI prior changes when the observed shift occurs, but not the endpoint route in this run.</figcaption>
         </figure>
         <figure class="scientific-figure">
+          <div class="figure-kicker"><span>Figure 11</span><span>Teacher state</span></div>
           <a class="figure-link" href="assets/figures/fig11-teacher-state.svg" data-zoom data-alt="Figure 11 compares four IF-RLVR teacher checkpoints for on-policy distillation, showing different trade-offs between matched IFEval transfer, MATH-500 retention, and contentful versus shortcut responses." data-caption="Figure 11. Different teacher states favor different OPD outcomes.">
             <img loading="lazy" src="assets/figures/fig11-teacher-state.svg" width="1200" height="423" alt="Figure 11 compares four IF-RLVR teacher checkpoints for on-policy distillation, showing different trade-offs between matched IFEval transfer, MATH-500 retention, and contentful versus shortcut responses.">
             <span class="zoom-hint">Open figure <span aria-hidden="true">↗</span></span>
@@ -306,6 +375,8 @@
     </section>
 
     <section class="joint-section section-space" aria-labelledby="joint-title">
+      <div class="chapter-tab chapter-tab--blue" aria-hidden="true"><span>06</span><small>Joint support</small></div>
+      <p class="margin-note margin-note--blue" aria-hidden="true">Marginal improvement is not the same as success in one shared response.</p>
       <div class="reading-column section-intro">
         <h2 id="joint-title">Marginal gains combine only partly in one response</h2>
         <p>MathIF and ReasonIF provide an independent endpoint stress test. Correctness <em>C</em> and strict instruction following <em>F</em> can improve in different responses; joint support requires <em>J = C ∧ F</em> in the same rollout.</p>
@@ -336,6 +407,7 @@
     </section>
 
     <section class="paper-section section-space" id="paper" aria-labelledby="paper-section-title">
+      <div class="chapter-tab" aria-hidden="true"><span>07</span><small>Paper</small></div>
       <div class="wide-column paper-layout">
         <div>
           <h2 id="paper-section-title">Paper</h2>
