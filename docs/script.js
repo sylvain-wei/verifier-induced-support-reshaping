@@ -120,6 +120,142 @@
     atlasObserver.observe(atlas);
   }
 
+  const fragmentStatus = document.querySelector("[data-fragment-status]");
+  const paperFragments = document.querySelectorAll(".paper-fragment");
+  const fragmentAnimations = new WeakMap();
+
+  const seededUnit = (seed) => {
+    const value = Math.sin(seed * 12.9898 + 78.233) * 43758.5453;
+    return value - Math.floor(value);
+  };
+
+  const prepareFragment = (fragment, fragmentIndex) => {
+    const textNode = fragment.querySelector("p");
+    if (!textNode) return;
+
+    const originalText = textNode.textContent.trim();
+    const source = fragment.dataset.fragmentSource || "Paper excerpt";
+    textNode.textContent = "";
+    textNode.setAttribute("aria-hidden", "true");
+
+    [...originalText].forEach((character, charIndex) => {
+      const span = document.createElement("span");
+      span.className = "paper-fragment__char";
+      span.textContent = character === " " ? "\u00a0" : character;
+      span.dataset.charIndex = String(charIndex);
+      textNode.append(span);
+    });
+
+    fragment.setAttribute("role", "button");
+    fragment.setAttribute("tabindex", "0");
+    fragment.setAttribute("aria-pressed", "false");
+    fragment.setAttribute("aria-label", `${source}: ${originalText} Activate to scatter this excerpt.`);
+    fragment.dataset.fragmentIndex = String(fragmentIndex);
+    fragment.dataset.fragmentText = originalText;
+  };
+
+  const scatterFragment = (fragment, impact) => {
+    if (fragment.classList.contains("is-busy")) return;
+    const characters = [...fragment.querySelectorAll(".paper-fragment__char")];
+    const rect = fragment.getBoundingClientRect();
+    const impactX = impact?.x ?? rect.left + rect.width / 2;
+    const impactY = impact?.y ?? rect.top + rect.height / 2;
+    const inward = fragment.classList.contains("paper-fragment--left") ? 1 : -1;
+    const fragmentSeed = Number(fragment.dataset.fragmentIndex || 0) * 997;
+    const animations = [];
+
+    fragment.classList.add("is-shattered", "is-busy");
+    fragment.setAttribute("aria-pressed", "true");
+
+    characters.forEach((character, index) => {
+      const charRect = character.getBoundingClientRect();
+      const charX = charRect.left + charRect.width / 2;
+      const charY = charRect.top + charRect.height / 2;
+      const horizontal = (charX - impactX) / Math.max(rect.width, 1);
+      const vertical = (charY - impactY) / Math.max(rect.height, 1);
+      const randomA = seededUnit(fragmentSeed + index * 3 + 1);
+      const randomB = seededUnit(fragmentSeed + index * 3 + 2);
+      const randomC = seededUnit(fragmentSeed + index * 3 + 3);
+      const dx = inward * (28 + randomA * 118) + horizontal * 92;
+      const lift = -18 - randomB * 58 + vertical * 18;
+      const dy = 72 + randomC * 230 + Math.abs(vertical) * 55;
+      const rotation = (randomA - 0.5) * 330 + inward * 22;
+      const duration = 760 + randomB * 640;
+      const delay = randomC * 115;
+
+      const animation = character.animate([
+        { transform: "translate(0, 0) rotate(0deg)", opacity: 1, offset: 0 },
+        { transform: `translate(${dx * 0.16}px, ${lift}px) rotate(${rotation * 0.12}deg)`, opacity: 1, offset: 0.16 },
+        { transform: `translate(${dx}px, ${dy}px) rotate(${rotation}deg)`, opacity: 0.14, offset: 1 }
+      ], {
+        duration,
+        delay,
+        easing: "cubic-bezier(0.18, 0.72, 0.22, 1)",
+        fill: "forwards"
+      });
+      animations.push(animation);
+    });
+
+    fragmentAnimations.set(fragment, animations);
+    window.setTimeout(() => fragment.classList.remove("is-busy"), 1550);
+    if (fragmentStatus) fragmentStatus.textContent = `${fragment.dataset.fragmentSource} excerpt scattered. Activate it again to recompose.`;
+  };
+
+  const recomposeFragment = (fragment) => {
+    if (fragment.classList.contains("is-busy")) return;
+    const characters = [...fragment.querySelectorAll(".paper-fragment__char")];
+    const previousAnimations = fragmentAnimations.get(fragment) || [];
+    const fragmentSeed = Number(fragment.dataset.fragmentIndex || 0) * 613;
+    const restores = [];
+
+    fragment.classList.add("is-busy");
+    characters.forEach((character, index) => {
+      const computed = window.getComputedStyle(character);
+      const startTransform = computed.transform === "none" ? "translate(0, 0)" : computed.transform;
+      const startOpacity = computed.opacity;
+      previousAnimations[index]?.cancel();
+      const animation = character.animate([
+        { transform: startTransform, opacity: startOpacity },
+        { transform: "translate(0, 0) rotate(0deg)", opacity: 1 }
+      ], {
+        duration: 470 + seededUnit(fragmentSeed + index) * 330,
+        delay: seededUnit(fragmentSeed + index * 2) * 90,
+        easing: "cubic-bezier(0.22, 0.72, 0.24, 1)",
+        fill: "forwards"
+      });
+      restores.push(animation.finished.catch(() => undefined));
+    });
+
+    Promise.all(restores).then(() => {
+      characters.forEach((character) => character.getAnimations().forEach((animation) => animation.cancel()));
+      fragment.classList.remove("is-shattered", "is-busy");
+      fragment.setAttribute("aria-pressed", "false");
+      fragmentAnimations.delete(fragment);
+    });
+    if (fragmentStatus) fragmentStatus.textContent = `${fragment.dataset.fragmentSource} excerpt recomposed.`;
+  };
+
+  paperFragments.forEach((fragment, index) => {
+    prepareFragment(fragment, index);
+    const activate = (impact) => {
+      if (reducedMotion) {
+        const scattered = fragment.classList.toggle("is-shattered");
+        fragment.setAttribute("aria-pressed", String(scattered));
+        if (fragmentStatus) fragmentStatus.textContent = scattered ? "Excerpt de-emphasized without animation." : "Excerpt restored.";
+        return;
+      }
+      if (fragment.classList.contains("is-shattered")) recomposeFragment(fragment);
+      else scatterFragment(fragment, impact);
+    };
+
+    fragment.addEventListener("click", (event) => activate({ x: event.clientX, y: event.clientY }));
+    fragment.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      activate();
+    });
+  });
+
   const navLinks = [...document.querySelectorAll(".nav-links a[href^='#']")];
   const sections = navLinks
     .map((link) => document.querySelector(link.getAttribute("href")))

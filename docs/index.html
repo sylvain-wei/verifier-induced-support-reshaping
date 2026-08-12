@@ -84,15 +84,6 @@
     </nav>
   </header>
 
-  <aside class="edge-atlas" aria-hidden="true">
-    <svg viewBox="0 0 118 520">
-      <path class="edge-grid" d="M18 0v118M48 0v118M78 0v118M108 0v118M0 18h118M0 48h118M0 78h118M0 108h118"/>
-      <path class="edge-route" d="M18 136C104 168 21 211 83 248S31 333 96 377 41 455 67 518"/>
-      <circle cx="52" cy="158" r="4"/><circle cx="76" cy="239" r="4"/><circle cx="58" cy="320" r="4"/><circle cx="83" cy="368" r="4"/><circle cx="55" cy="448" r="4"/>
-    </svg>
-    <p>rollout<br>budget B<br>verifier V<br>policy π<sub>θ</sub></p>
-  </aside>
-
   <main id="main-content">
     <section class="hero" id="overview" aria-labelledby="paper-title">
       <div class="chapter-tab chapter-tab--hero" aria-hidden="true"><span>01</span><small>Intro</small></div>
@@ -116,6 +107,7 @@
             <a href="#citation">Citation</a>
           </nav>
           <p class="thesis">On-policy verifiers do more than score sampled trajectories. They reshape which behaviors remain reachable, rewardable, and trainable next.</p>
+          <p class="fragment-guide"><span aria-hidden="true">↘</span> Paper excerpts live at the page edge. Click one to scatter—and click again to recompose—the text.</p>
         </div>
 
         <figure class="support-atlas" aria-labelledby="atlas-caption">
@@ -475,6 +467,46 @@
         </div>
       </div>
     </section>
+
+    <aside class="paper-fragments" aria-label="Interactive excerpts from the paper">
+      <blockquote class="paper-fragment paper-fragment--right paper-fragment--burgundy" style="--fragment-top: 3.2%; --fragment-rotate: 6deg; --fragment-height: 235px;" data-fragment-id="support" data-fragment-source="Overview">
+        <p>A capability can remain possible in principle yet become too rare to appear within the rollouts available to the next on-policy stage.</p>
+        <cite>Overview · effective support</cite>
+      </blockquote>
+      <blockquote class="paper-fragment paper-fragment--left paper-fragment--math" style="--fragment-top: 13.5%; --fragment-rotate: -7deg; --fragment-height: 205px;" data-fragment-id="budget" data-fragment-source="Definition">
+        <p>Effective rewardable support is defined relative to a finite rollout budget: success must remain discoverable under sampling.</p>
+        <cite>Definition · rollout budget B</cite>
+      </blockquote>
+      <blockquote class="paper-fragment paper-fragment--right paper-fragment--support" style="--fragment-top: 25%; --fragment-rotate: -5deg; --fragment-height: 230px;" data-fragment-id="polarization" data-fragment-source="Figure 2">
+        <p>Math-RLVR moves mixed instruction-following prompts toward both extremes. Average success rises while repeated-sampling coverage falls.</p>
+        <cite>Figure 2 · polarization</cite>
+      </blockquote>
+      <blockquote class="paper-fragment paper-fragment--left paper-fragment--warm" style="--fragment-top: 36%; --fragment-rotate: 8deg; --fragment-height: 190px;" data-fragment-id="searchability" data-fragment-source="Figure 3">
+        <p>Across checkpoints, DAI share and AIME best@32 have Pearson r = −0.85. This is behavioral correlation, not causal evidence.</p>
+        <cite>Figure 3 · correlation</cite>
+      </blockquote>
+      <blockquote class="paper-fragment paper-fragment--right paper-fragment--math" style="--fragment-top: 47.5%; --fragment-rotate: 7deg; --fragment-height: 215px;" data-fragment-id="opening" data-fragment-source="Figure 6">
+        <p>The first generated token carries the largest average Jensen–Shannon divergence across every tested model, branch, and benchmark.</p>
+        <cite>Figure 6 · route entry</cite>
+      </blockquote>
+      <blockquote class="paper-fragment paper-fragment--left paper-fragment--burgundy" style="--fragment-top: 58%; --fragment-rotate: -6deg; --fragment-height: 235px;" data-fragment-id="intervention" data-fragment-source="Figure 8">
+        <p>Controlled route-token and prefix interventions change math searchability, localizing a causal route-entry effect in the tested settings.</p>
+        <cite>Figure 8 · intervention</cite>
+      </blockquote>
+      <blockquote class="paper-fragment paper-fragment--right paper-fragment--support" style="--fragment-top: 69.5%; --fragment-rotate: -8deg; --fragment-height: 205px;" data-fragment-id="preservation" data-fragment-source="Preservation experiments">
+        <p>Preservation is partial, conditional, and teacher-state dependent. Endpoint target gain alone does not characterize retained support.</p>
+        <cite>Preservation · tested limits</cite>
+      </blockquote>
+      <blockquote class="paper-fragment paper-fragment--left paper-fragment--math" style="--fragment-top: 81%; --fragment-rotate: 5deg; --fragment-height: 210px;" data-fragment-id="joint" data-fragment-source="Table 3">
+        <p>Joint support requires correctness and strict instruction following in the same response: J = C ∧ F.</p>
+        <cite>Table 3 · joint support</cite>
+      </blockquote>
+      <blockquote class="paper-fragment paper-fragment--right paper-fragment--warm" style="--fragment-top: 91.5%; --fragment-rotate: 6deg; --fragment-height: 230px;" data-fragment-id="conclusion" data-fragment-source="Conclusion">
+        <p>Verifier choice is a forward-looking training intervention. It changes which behaviors remain reachable, rewardable, and trainable next.</p>
+        <cite>Conclusion · future trainability</cite>
+      </blockquote>
+      <p class="visually-hidden" aria-live="polite" data-fragment-status></p>
+    </aside>
   </main>
 
   <footer class="site-footer">
