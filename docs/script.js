@@ -236,7 +236,7 @@
       fragmentAnimations.delete(fragment);
     };
     Promise.all(restores).then(finishRecompose);
-    window.setTimeout(finishRecompose, 1100);
+    window.setTimeout(finishRecompose, 700);
     if (fragmentStatus) fragmentStatus.textContent = `${fragment.dataset.fragmentSource} excerpt recomposed.`;
   };
 

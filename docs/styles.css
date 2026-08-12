@@ -257,8 +257,6 @@ sup { font-size: 0.62em; line-height: 0; }
   color: var(--fragment-color);
   cursor: crosshair;
   pointer-events: auto;
-  transform: rotate(var(--fragment-rotate));
-  transform-origin: center;
   transition: background 180ms ease, filter 180ms ease, opacity 180ms ease;
 }
 
@@ -275,6 +273,8 @@ sup { font-size: 0.62em; line-height: 0; }
   font: 650 clamp(0.64rem, 0.8vw, 0.76rem)/0.96 var(--mono);
   letter-spacing: -0.035em;
   overflow-wrap: anywhere;
+  transform: rotate(var(--fragment-rotate));
+  transform-origin: center;
 }
 
 .paper-fragment cite {
@@ -314,6 +314,11 @@ sup { font-size: 0.62em; line-height: 0; }
 .paper-fragment:focus-visible {
   background: color-mix(in srgb, var(--fragment-color) 7%, var(--paper));
   filter: contrast(1.04);
+}
+
+.paper-fragment:focus-visible {
+  outline: 2px dashed var(--fragment-color);
+  outline-offset: -3px;
 }
 
 .paper-fragment:hover::before,
