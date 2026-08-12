@@ -24,6 +24,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
+  overflow-x: clip;
   scroll-behavior: smooth;
   scroll-padding-top: 78px;
 }
@@ -244,7 +245,7 @@ sup { font-size: 0.62em; line-height: 0; }
   --fragment-color: var(--burgundy);
   position: absolute;
   top: var(--fragment-top);
-  width: clamp(100px, 8.7vw, 132px);
+  width: clamp(116px, 10vw, 155px);
   height: var(--fragment-height);
   margin: 0;
   padding: 8px 7px 20px;
@@ -270,7 +271,7 @@ sup { font-size: 0.62em; line-height: 0; }
 .paper-fragment p {
   margin: 0;
   color: inherit;
-  font: 650 clamp(0.54rem, 0.61vw, 0.64rem)/0.98 var(--mono);
+  font: 650 clamp(0.64rem, 0.8vw, 0.76rem)/0.96 var(--mono);
   letter-spacing: -0.035em;
   overflow-wrap: anywhere;
 }
@@ -925,8 +926,8 @@ pre {
 
 @media (max-width: 1280px) {
   .margin-note { display: none; }
-  .paper-fragment { width: 82px; opacity: 0.72; }
-  .paper-fragment p { font-size: 0.48rem; }
+  .paper-fragment { width: 92px; opacity: 0.78; }
+  .paper-fragment p { font-size: 0.55rem; }
   .paper-fragment--left { left: -22px; }
   .paper-fragment--right { right: -22px; }
   .chapter-tab, .chapter-tab--hero {
