@@ -1,6 +1,46 @@
 (() => {
   "use strict";
 
+  document.documentElement.classList.add("js");
+
+  const navToggle = document.querySelector("[data-nav-toggle]");
+  const navLinksPanel = document.querySelector("[data-nav-links]");
+
+  if (navToggle && navLinksPanel) {
+    const toggleSymbol = navToggle.querySelector("span[aria-hidden]");
+    navToggle.addEventListener("click", () => {
+      const isOpen = navToggle.getAttribute("aria-expanded") === "true";
+      navToggle.setAttribute("aria-expanded", String(!isOpen));
+      navLinksPanel.classList.toggle("is-open", !isOpen);
+      if (toggleSymbol) toggleSymbol.textContent = isOpen ? "+" : "−";
+    });
+
+    navLinksPanel.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        navToggle.setAttribute("aria-expanded", "false");
+        navLinksPanel.classList.remove("is-open");
+        if (toggleSymbol) toggleSymbol.textContent = "+";
+      });
+    });
+  }
+
+  const progressBar = document.querySelector("[data-reading-progress]");
+  if (progressBar) {
+    let progressFrame = null;
+    const updateProgress = () => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollable > 0 ? Math.min(1, window.scrollY / scrollable) : 0;
+      progressBar.style.width = `${progress * 100}%`;
+      progressFrame = null;
+    };
+    const requestProgress = () => {
+      if (progressFrame === null) progressFrame = window.requestAnimationFrame(updateProgress);
+    };
+    updateProgress();
+    window.addEventListener("scroll", requestProgress, { passive: true });
+    window.addEventListener("resize", requestProgress);
+  }
+
   const dialog = document.querySelector("[data-figure-dialog]");
   const dialogImage = dialog?.querySelector("[data-dialog-image]");
   const dialogCaption = dialog?.querySelector("[data-dialog-caption]");
@@ -51,6 +91,33 @@
         copyStatus.textContent = "BibTeX selected. Press Ctrl+C or Command+C to copy.";
       }
     });
+  }
+
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const revealTargets = document.querySelectorAll(
+    ".scientific-figure, .result-ledger, .metric-definitions > div, .preservation-list article"
+  );
+
+  if (!reducedMotion && "IntersectionObserver" in window) {
+    revealTargets.forEach((target) => target.setAttribute("data-reveal", ""));
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -8%", threshold: 0.08 });
+    revealTargets.forEach((target) => revealObserver.observe(target));
+  }
+
+  const atlas = document.querySelector(".support-atlas");
+  if (atlas && !reducedMotion && "IntersectionObserver" in window) {
+    const atlasObserver = new IntersectionObserver((entries, observer) => {
+      if (!entries[0]?.isIntersecting) return;
+      atlas.classList.add("is-active");
+      observer.disconnect();
+    }, { threshold: 0.3 });
+    atlasObserver.observe(atlas);
   }
 
   const navLinks = [...document.querySelectorAll(".nav-links a[href^='#']")];
